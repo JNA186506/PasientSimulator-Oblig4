@@ -1,4 +1,4 @@
-﻿namespace PasientSimulator_Oblig4_lib;
+﻿namespace PasientSimulator_Oblig4_lib.Models;
 
 public class Student {
     
