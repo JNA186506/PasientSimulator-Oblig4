@@ -13,4 +13,6 @@ public class Patient {
     public int Heartrate { get; set; }
     
     public List<Medication> Medications { get; set; }
+    
+    public List<Illness> Illnesses { get; set; }
 }
