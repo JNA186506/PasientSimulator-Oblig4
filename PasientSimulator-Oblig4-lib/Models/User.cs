@@ -1,8 +1,7 @@
 ﻿namespace PasientSimulator_Oblig4_lib.Models;
 
-public class Teacher {
-    
-    public int Teacherid { get; set; }
+public class User {
+    public int Id { get; set; }
+    public int Role { get; set; }
     public string Name { get; set; }
-    
 }
