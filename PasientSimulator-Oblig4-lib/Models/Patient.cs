@@ -20,9 +20,10 @@ public class Patient {
     public double OxygenSaturation { get; set; }
     public double Temperature { get; set; }
     
+    
     public List<Illness> MedicalHistory { get; set; }
+    public List<Illness> Diagnoses { get; set; }
     
     public List<Medication> Medications { get; set; }
-    
-    public List<Illness> Diagnoses { get; set; }
+    public List<Medication> Allergies { get; set; }
 }

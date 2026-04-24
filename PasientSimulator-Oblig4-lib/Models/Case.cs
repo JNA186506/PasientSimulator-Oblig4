@@ -8,4 +8,7 @@ public class Case {
     public int TimeLimit { get; set; }
     
     public User Student { get; set; }
+    
+    public List<Goal> Goals { get; set; }
+    
 }
