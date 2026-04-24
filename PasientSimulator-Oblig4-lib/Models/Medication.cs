@@ -8,6 +8,7 @@ public class Medication {
      * @Dosage are given in mg.
      */
     public int Dosage { get; set; }
+    
     public string AdministrationRoots { get; set; }
     
     public List<string> Effects { get; set; }
