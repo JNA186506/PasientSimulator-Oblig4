@@ -3,16 +3,32 @@
 public class Patient {
     
     public int PatientId { get; set; }
-    
+
     /**
      * Status refers to what state the patient is in.
      * Number value from 1 to 3. Where 1 is healthy, 2 is sick, and 3 is dead.
      */
-    public int Status { get; set; }
+    public enum StatusEnum {
+        Healthy = 1,
+        Sick = 2,
+        SeverelySick = 3,
+        Dead = 4
+    }
+
+    public enum SexEnum {
+        Male = 1,
+        Female = 2,
+        Other = 3
+    }
+    
+
     public string PatientName { get; set; }
     public int Weight { get; set; }
     public int Age { get; set; }
-    public enum Sex { Male = 1, Female = 2, Other = 3 }
+
+    public SexEnum Sex { get; set; }
+    public StatusEnum Status { get; set; }
+    
     
     public int Heartrate { get; set; }
     public int Bloodpressure { get; set; }
