@@ -12,7 +12,7 @@ public class Context : DbContext {
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         if (!optionsBuilder.IsConfigured) {
-            optionsBuilder.UseSqlServer("Server=tcp:dat154-rubylite.database.windows.net,1433;Initial Catalog=DAT154-RUBYlite;Persist Security Info=False;User ID=rubyadmin;Password=magneogjohannespaaeventyr1#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            optionsBuilder.UseSqlServer("Server=tcp:dat154-rubylite.database.windows.net,1433;Initial Catalog=rubylite;Persist Security Info=False;User ID=rubyadmin;Password=johannes123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
     }
     
