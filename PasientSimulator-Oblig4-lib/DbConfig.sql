@@ -1,3 +1,16 @@
+DROP TABLE IF EXISTS CaseGoals;
+DROP TABLE IF EXISTS Goals;
+DROP TABLE IF EXISTS Cases;
+DROP TABLE IF EXISTS Allergies;
+DROP TABLE IF EXISTS PatientMedications;
+DROP TABLE IF EXISTS Diagnoses;
+DROP TABLE IF EXISTS MedicalHistory;
+DROP TABLE IF EXISTS Patients;
+DROP TABLE IF EXISTS IllnessTreatments;
+DROP TABLE IF EXISTS Illnesses;
+DROP TABLE IF EXISTS Medications;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
                        UserId Integer primary key,
                        Role INTEGER NOT NULL,
