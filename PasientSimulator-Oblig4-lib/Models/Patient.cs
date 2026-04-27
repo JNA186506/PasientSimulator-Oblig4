@@ -12,7 +12,7 @@ public class Patient {
     public string PatientName { get; set; }
     public int Weight { get; set; }
     public int Age { get; set; }
-    public string Sex { get; set; }
+    public enum Sex { Male = 1, Female = 2, Other = 3 }
     
     public int Heartrate { get; set; }
     public int Bloodpressure { get; set; }

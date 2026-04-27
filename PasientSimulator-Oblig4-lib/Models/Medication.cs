@@ -1,4 +1,6 @@
-﻿namespace PasientSimulator_Oblig4_lib.Models;
+﻿using System.Runtime.Intrinsics.X86;
+
+namespace PasientSimulator_Oblig4_lib.Models;
 
 public class Medication {
     public int MedicationId { get; set; }
@@ -9,7 +11,7 @@ public class Medication {
      */
     public int Dosage { get; set; }
     
-    public string AdministrationRoots { get; set; }
+    public enum AdministrationRoutes { Iv = 0, Oral = 1 }
     
     public List<string> Effects { get; set; }
 }
