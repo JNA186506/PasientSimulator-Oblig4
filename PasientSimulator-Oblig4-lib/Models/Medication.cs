@@ -13,5 +13,4 @@ public class Medication {
     
     public enum AdministrationRoutes { Iv = 0, Oral = 1 }
     
-    public List<string> Effects { get; set; }
 }
