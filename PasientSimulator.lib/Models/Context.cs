@@ -30,16 +30,19 @@ public class Context : DbContext {
         modelBuilder.Entity<Case>()
             .HasOne(c => c.CasePatient)
             .WithMany()
+            .HasForeignKey(c => c.PatientId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Case>()
             .HasOne(c => c.Student)
             .WithMany(u => u.Cases)
+            .HasForeignKey(c => c.StudentId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Case>()
             .HasMany(c => c.Goals)
             .WithOne()
+            .HasForeignKey(g => g.CaseId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Configure Patient entity
@@ -75,6 +78,7 @@ public class Context : DbContext {
         modelBuilder.Entity<Illness>()
             .HasOne(i => i.Antidote)
             .WithMany()
+            .HasForeignKey(i => i.AntidoteId)
             .OnDelete(DeleteBehavior.SetNull);
 
         // Configure Medication entity
@@ -87,6 +91,6 @@ public class Context : DbContext {
 
         // Configure User entity
         modelBuilder.Entity<User>()
-            .HasKey(u => u.Id);
+            .HasKey(u => u.UserId);
     }
 }

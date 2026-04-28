@@ -20,7 +20,6 @@ public class Patient {
         Female = 2,
         Other = 3
     }
-    
 
     public string PatientName { get; set; }
     public int Weight { get; set; }

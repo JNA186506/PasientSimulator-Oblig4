@@ -4,6 +4,7 @@ public class Goal {
     
     public int Id { get; set; }
     
+    public int CaseId { get; set; }
     public string GoalName { get; set; }
 
     public int TimeLimit { get; set; }
