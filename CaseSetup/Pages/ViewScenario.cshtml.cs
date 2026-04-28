@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ViewScenario.Pages
+namespace CaseSetup.Pages
 {
-    public class IndexModel : PageModel
+    public class ViewScenarioModel : PageModel
     {
         public void OnGet()
         {

@@ -9,7 +9,7 @@
     <h2>Patient case scenario</h2>
     <p>Here comes the list of patient case scenarios.</p>
     <ul>
-        @foreach (var scenario in Model.cases) {
+        @foreach (var scenario in Model.Cases) {
             <li>@scenario.CasePatient | @scenario.Student | @scenario.Goals</li>
             <form method="get">
                 <button type="submit" asp-page="">Change scenario</button>

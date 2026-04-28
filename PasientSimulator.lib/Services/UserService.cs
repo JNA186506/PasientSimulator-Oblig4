@@ -35,4 +35,8 @@ public class UserService {
         _context.Update(user);
         _context.SaveChanges();
     }
+
+    public List<User> GetAllStudents() {
+        return _context.Users.Where(s => s.Role == 1).ToList();
+    }
 }

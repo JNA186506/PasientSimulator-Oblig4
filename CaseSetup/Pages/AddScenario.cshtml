@@ -1,0 +1,52 @@
+﻿@page
+@model AddScenarioModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">AddScenario</h1>
+    <form method="post">
+        @*string patientName, int weight, int age, int sex, int status, int heartrate,
+        int respiratoryRate, double temperature, List<Illness>
+        diagnoses, List<Medication> allergies*@
+        <input type="text" />
+        <input type="number" />
+        <input type="number" />
+        <select name="selectSex" id="selectSex">
+            <option value="1">Male</option>
+            <option value="2">Male</option>
+            <option value="3">Male</option>
+        </select>
+        <select name="selectStatus" id="selectStatus">
+            <option value="1">Healthy</option>
+            <option value="2">Sick</option>
+            <option value="3">Severely sick</option>
+            <option value="4">Dead</option>
+        </select>
+        <input type="number" />
+        <input type="number" />
+        <input type="number" />
+        @foreach (var illness in Model.Diagnosis)
+        {
+            <checkbox id="@illness.Id" name="diagnosis" value="@illness.Name" />
+        }
+        @foreach (var allergy in Model.Allergies)
+        {
+            <checkbox id="@allergy.MedicationId" name="allergies" value="@allergy.MedicationName" />
+        }
+        @*int id, Patient casePatient, User student, List<Goal> goals*@
+        <input type="number" placeholder="id" value="caseId" />
+        <select name="selectStudent" id="selectStudent">
+            @foreach (var student in Model.Students)
+            {
+                <option value="@student">@student.Name</option>
+            }
+        </select>
+        @foreach (var goal in Model.Goals)
+        {
+            <input type="checkbox" id="@goal.Id" name="goals" value="@goal.Description" />
+        }
+        <input type="submit" value="Add scenario" />
+    </form>
+</div>

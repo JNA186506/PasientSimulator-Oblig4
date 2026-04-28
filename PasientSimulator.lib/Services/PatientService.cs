@@ -47,4 +47,13 @@ public class PatientService {
 
         return patient.Diagnoses;
     }
+
+    public List<Illness> GetAllDiagnosis() {
+        return _context.Illnesses.ToList();
+    }
+
+    public List<Medication> GetAllAllergies()
+    {
+        return _context.Medications.ToList();
+    }
 }
