@@ -10,8 +10,8 @@ namespace CaseSetup.Pages
         public Context context { get; set; }
         public CaseService caseService { get; set; }
         public List<Case> cases { get; set; }
-        public IndexModel() {
-            context = new Context();
+        public IndexModel(Context context) {
+            this.context = context;
             caseService = new CaseService(context);
             cases = caseService.GetAllCases();
         }
