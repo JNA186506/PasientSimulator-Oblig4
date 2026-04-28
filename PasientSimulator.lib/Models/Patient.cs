@@ -31,7 +31,7 @@ public class Patient {
     
     
     public int Heartrate { get; set; }
-    public int Bloodpressure { get; set; }
+    public BloodPressure Bloodpressure { get; set; }
     public int RespiratoryRate { get; set; }
     public double OxygenSaturation { get; set; }
     public double Temperature { get; set; }
