@@ -6,7 +6,7 @@ public class Case {
     public int PatientId { get; set; }
     public Patient CasePatient { get; set; }
     
-    public int StudentId { get; set; }
+    public int UserId { get; set; }
     public User Student { get; set; }
 
     public List<Goal> Goals { get; set; }

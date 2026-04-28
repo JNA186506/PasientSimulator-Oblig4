@@ -81,7 +81,7 @@ CREATE TABLE Cases
 (
     CaseId    Integer primary key,
     PatientId Integer not null references Patients (PatientId),
-    UserId    Integer not null references Users (UserId)
+    UserId Integer not null references Users (UserId)
 )
 
 CREATE TABLE Goals

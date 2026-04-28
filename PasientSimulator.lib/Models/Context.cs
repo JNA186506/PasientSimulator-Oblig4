@@ -36,7 +36,7 @@ public class Context : DbContext {
         modelBuilder.Entity<Case>()
             .HasOne(c => c.Student)
             .WithMany(u => u.Cases)
-            .HasForeignKey(c => c.StudentId)
+            .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Case>()
