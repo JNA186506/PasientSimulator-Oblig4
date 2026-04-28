@@ -27,6 +27,8 @@ public class CaseService {
         
         return null;
     }
-    
 
+    public List<Goal> GetAllGoals() {
+        return _context.Goals.ToList();
+    }
 }

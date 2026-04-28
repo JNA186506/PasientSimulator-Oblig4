@@ -1,28 +1,26 @@
-using PasientSimulator_Oblig4_lib.Models;
+using PasientSimulator.lib.Models;
 
-namespace PasientSimulator_Oblig4_lib.Services;
+namespace PasientSimulator.lib.Services;
 
 public class CheckVitals {
 
-    public int checkHR(Patient patient){
-    return patient.getHeartrate();
+    public int CheckHR(Patient patient){
+    return patient.Heartrate;
     }
 
     public int CheckRespiratoryRate(Patient patient){
-    return patient.getRespiratoryRate();
+    return patient.RespiratoryRate;
     }
 
     public double CheckOxygenSaturation(Patient patient){
-    return patient.getOxygenSaturation();
+    return patient.OxygenSaturation;
     }
 
     public double CheckTemperature(Patient patient){
-    return patient.getTemperature();
+    return patient.Temperature;
     }
 
-    public (int Systolic, int Diastolic) CheckBloodPressure(Patient patient){
-        Systolic = patient.BloodPressure.getSystolic();
-        Diastolic = patient.BloodPressure.GetDiastolic();
-        return (Systolic, Diastolic);
+    public (int Systolic, int Diastolic) CheckBloodPressure(Patient patient) {
+        return (patient.Bloodpressure.Systolic, patient.Bloodpressure.Diastolic);
     }
 }
