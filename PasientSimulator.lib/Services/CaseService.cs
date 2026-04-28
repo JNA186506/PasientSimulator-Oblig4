@@ -20,6 +20,13 @@ public class CaseService {
         return _context.Cases.ToList();
     }
 
+    public Goal MakeGoal(int currCaseId, string goalName, int timeLimit, string description) {
+        Goal newGoal = new Goal
+            { CaseId = currCaseId, GoalName = goalName,
+                Description = description, TimeLimit = timeLimit };
+        
+        return null;
+    }
     
 
 }

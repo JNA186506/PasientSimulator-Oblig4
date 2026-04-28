@@ -30,7 +30,9 @@ public class UserService {
         return false;
     }
 
-    public void AddCase(Case newCase) {
-        
+    public void AddCase(User user, Case newCase) {
+        user.Cases.Add(newCase);
+        _context.Update(user);
+        _context.SaveChanges();
     }
 }
