@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PasientSimulator.lib\PasientSimulator.lib.csproj" />
+  </ItemGroup>
+
 </Project>

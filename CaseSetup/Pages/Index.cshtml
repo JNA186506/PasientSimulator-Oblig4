@@ -5,6 +5,19 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Case Setup</h1>
+    <h2>Patient case scenario</h2>
+    <p>Here comes the list of patient case scenarios.</p>
+    <ul>
+        @foreach (var scenario in Model.cases) {
+            <li>@scenario.CasePatient | @scenario.Student | @scenario.Goals</li>
+            <form method="get">
+                <button type="submit" asp-page="">Change scenario</button>
+                <button type="submit" asp-page="/ViewScenario">View scenario</button>
+            </form>
+        }
+    </ul>
+    <form method="get">
+        <button type="submit" asp-page="">Add scenario</button>
+    </form>
 </div>
