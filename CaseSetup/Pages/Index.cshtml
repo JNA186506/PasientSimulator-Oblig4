@@ -12,12 +12,12 @@
         @foreach (var scenario in Model.Cases) {
             <li>@scenario.CasePatient | @scenario.Student | @scenario.Goals</li>
             <form method="get">
-                <button type="submit" asp-page="">Change scenario</button>
+                <button type="submit" asp-page="/ChangeScenario">Change scenario</button>
                 <button type="submit" asp-page="/ViewScenario">View scenario</button>
             </form>
         }
     </ul>
     <form method="get">
-        <button type="submit" asp-page="">Add scenario</button>
+        <button type="submit" asp-page="/AddScenario">Add scenario</button>
     </form>
 </div>
