@@ -5,7 +5,7 @@ public class Medication {
     public string MedicationName { get; set; }
     
     /**
-     * @Dosage are given in mg.
+     * Dosage is given in mg.
      */
     public int Dosage { get; set; }
     

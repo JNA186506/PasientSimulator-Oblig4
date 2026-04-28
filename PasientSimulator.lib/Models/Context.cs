@@ -8,7 +8,6 @@ public class Context : DbContext {
 
     public Context(DbContextOptions<Context> options) : base(options) {}
 
-    // DbSet properties for all entities
     public DbSet<Case> Cases { get; set; }
     public DbSet<Goal> Goals { get; set; }
     public DbSet<Illness> Illnesses { get; set; }
@@ -25,7 +24,6 @@ public class Context : DbContext {
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
 
-        // Configure Case entity
         modelBuilder.Entity<Case>()
             .HasKey(c => c.CaseId);
 
@@ -49,6 +47,9 @@ public class Context : DbContext {
             .HasKey(p => p.PatientId);
 
         modelBuilder.Entity<Patient>()
+            .OwnsOne(p => p.Bloodpressure);
+
+        modelBuilder.Entity<Patient>()
             .HasMany(p => p.MedicalHistory)
             .WithMany();
 
@@ -67,6 +68,9 @@ public class Context : DbContext {
         // Configure Illness entity
         modelBuilder.Entity<Illness>()
             .HasKey(i => i.Id);
+
+        modelBuilder.Entity<Illness>()
+            .OwnsOne(i => i.Bloodpressure);
 
         modelBuilder.Entity<Illness>()
             .HasOne(i => i.Antidote)
