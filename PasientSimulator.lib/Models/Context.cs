@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace PasientSimulator_Oblig4_lib.Models;
+namespace PasientSimulator.lib.Models;
 
 public class Context : DbContext {
 

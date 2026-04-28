@@ -1,10 +1,10 @@
-using PasientSimulator_Oblig4_lib.Models;
+using PasientSimulator.lib.Models;
 
-namespace PasientSimulator_Oblig4_lib.Services;
+namespace PasientSimulator.lib.Services;
 
-public class AdministerTreatment {
+public static class AdministerTreatment {
 
-    public bool AdministerMedicine(Medication medicine, Patient patient) {
+    public static bool AdministerMedicine(Medication medicine, Patient patient) {
 
         bool isAllergic = patient.Allergies.Any(m => m.MedicationId == medicine.MedicationId);
 
@@ -13,6 +13,13 @@ public class AdministerTreatment {
             return false;
         }
 
+        bool isCured = patient.Diagnoses.Any(m => m.Antidote.MedicationId == medicine.MedicationId);
+
+        if (!isCured) {
+            return false;
+        }
+        
+        patient.Status = Patient.StatusEnum.Healthy;
         return true;
     }
 }

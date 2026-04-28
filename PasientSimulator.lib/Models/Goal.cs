@@ -1,4 +1,4 @@
-namespace PasientSimulator_Oblig4_lib.Models;
+namespace PasientSimulator.lib.Models;
 
 public class Goal {
     

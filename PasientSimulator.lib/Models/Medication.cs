@@ -1,6 +1,4 @@
-﻿using System.Runtime.Intrinsics.X86;
-
-namespace PasientSimulator_Oblig4_lib.Models;
+﻿namespace PasientSimulator.lib.Models;
 
 public class Medication {
     public int MedicationId { get; set; }
