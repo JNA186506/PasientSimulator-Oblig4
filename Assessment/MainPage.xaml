@@ -9,7 +9,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid Column="1">
-            <CollectionView x:Name="CaseView" BindingContext="{ Binding }" >
+            <CollectionView x:Name="CaseView">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border StrokeThickness="1" 

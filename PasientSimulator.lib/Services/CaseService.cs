@@ -10,32 +10,32 @@ public class CaseService {
         _context = context;
     }
 
-    public Case AddNewCase(int id, Patient casePatient, User student, List<Goal> goals) {
+    public async Task<Case> AddNewCase(int id, Patient casePatient, User student, List<Goal> goals) {
         var newCase = new Case { CaseId = id, CasePatient = casePatient, Student = student, Goals = goals };
         _context.Add(newCase);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return newCase;
     }
 
-    public List<Case> GetAllCases() {
-        return _context.Cases
+    public async Task<List<Case>> GetAllCases() {
+        return await _context.Cases
             .Include(p => p.CasePatient)
             .Include(s => s.Student)
-            .ToList();
+            .ToListAsync();
     }
 
-    public Goal MakeGoal(int currCaseId, string goalName, int timeLimit, string description) {
+    public async Task<Goal> MakeGoal(int currCaseId, string goalName, int timeLimit, string description) {
         Goal newGoal = new Goal
             { CaseId = currCaseId, GoalName = goalName,
                 Description = description, TimeLimit = timeLimit };
 
         _context.Add(newGoal);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         return newGoal;
     }
 
-    public List<Goal> GetAllGoals() {
-        return _context.Goals.ToList();
+    public async Task<List<Goal>> GetAllGoals() {
+        return await _context.Goals.ToListAsync();
     }
 }

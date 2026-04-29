@@ -1,10 +1,14 @@
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<Context>();
+builder.Services.AddScoped<CaseService>();
+builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 

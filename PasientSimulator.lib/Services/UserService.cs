@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
 
 namespace PasientSimulator.lib.Services;
@@ -9,34 +10,35 @@ public class UserService {
         _context = context;
     }
 
-    public User AddUser(int id, int role, string name) {
+    public async Task<User> AddUser(int id, int role, string name) {
         User newUser = new User { UserId = id, Role = role, Name = name };
         
         _context.Add(newUser);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return newUser;
     }
 
-    public bool RemoveUser(int id) {
-        User? user = _context.Users.Find(id);
+    public async Task<bool> RemoveUser(int id) {
+        User? user = await _context.Users.FindAsync(id);
 
         if (user is not null) {
             user.Cases = null;
             _context.Remove(user);
+            await _context.SaveChangesAsync();
             return true;
         }
 
         return false;
     }
 
-    public void AddCase(User user, Case newCase) {
+    public async Task AddCase(User user, Case newCase) {
         user.Cases.Add(newCase);
         _context.Update(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public List<User> GetAllStudents() {
-        return _context.Users.Where(s => s.Role == 1).ToList();
+    public async Task<List<User>> GetAllStudents() {
+        return await _context.Users.Where(s => s.Role == 1).ToListAsync();
     }
 }

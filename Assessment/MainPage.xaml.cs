@@ -14,18 +14,26 @@ namespace Assessment
             InitializeComponent();
 
             _caseService = caseService;
+        }
 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await LoadData();
+        }
+
+        private async Task LoadData()
+        {
             try
             {
-                var cases = _caseService.GetAllCases();
+                var cases = await _caseService.GetAllCases();
                 _cases = new ObservableCollection<Case>(cases);
                 CaseView.ItemsSource = _cases;
             }
             catch (Exception ex)
             {
-                DisplayAlert("Error", $"Failed to load cases: {ex.Message}\n\n{ex.InnerException?.Message}", "OK");
+                await DisplayAlert("Error", $"Failed to load cases: {ex.Message}\n\n{ex.InnerException?.Message}", "OK");
             }
-
         }
 
     }

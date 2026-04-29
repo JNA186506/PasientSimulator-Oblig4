@@ -10,11 +10,11 @@ public class PatientService {
         _context = context;
     }
 
-    public List<Patient> GetAllPatients() {
-        return _context.Patients.ToList();
+    public async Task<List<Patient>> GetAllPatients() {
+        return await _context.Patients.ToListAsync();
     }
 
-    public Patient AddNewPatient(
+    public async Task<Patient> AddNewPatient(
         string patientName, int weight, int age, int sex, int status, int heartrate,
         int respiratoryRate, double temperature, List<Illness> diagnoses, List<Medication> allergies) {
 
@@ -24,22 +24,22 @@ public class PatientService {
         };
 
         _context.Add(newPatient);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         return newPatient;
     }
 
-    public bool AddIllness(Illness illness, Patient patient) {
+    public async Task<bool> AddIllness(Illness illness, Patient patient) {
         patient.Diagnoses.Add(illness);
         _context.Update(patient);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
 
-    public List<Illness> GetPatientIllesses(Patient patient) {
-        Patient? p = _context.Patients
+    public async Task<List<Illness>> GetPatientIllesses(Patient patient) {
+        Patient? p = await _context.Patients
             .Include(p => p.Diagnoses)
-            .FirstOrDefault(p => p.PatientId == patient.PatientId);
+            .FirstOrDefaultAsync(p => p.PatientId == patient.PatientId);
         
         if (p == null) {
             throw new KeyNotFoundException();
@@ -48,12 +48,12 @@ public class PatientService {
         return patient.Diagnoses;
     }
 
-    public List<Illness> GetAllDiagnosis() {
-        return _context.Illnesses.ToList();
+    public async Task<List<Illness>> GetAllDiagnosis() {
+        return await _context.Illnesses.ToListAsync();
     }
 
-    public List<Medication> GetAllAllergies()
+    public async Task<List<Medication>> GetAllAllergies()
     {
-        return _context.Medications.ToList();
+        return await _context.Medications.ToListAsync();
     }
 }

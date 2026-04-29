@@ -7,13 +7,16 @@ namespace CaseSetup.Pages
 {
     public class IndexModel : PageModel
     {
-        public Context Context { get; set; }
-        public CaseService CaseService { get; set; }
-        public List<Case> Cases { get; set; }
-        public IndexModel() {
-            Context = new Context();
-            CaseService = new CaseService(Context);
-            Cases = CaseService.GetAllCases();
+        private readonly CaseService _caseService;
+        public List<Case> Cases { get; set; } = new();
+
+        public IndexModel(CaseService caseService) {
+            _caseService = caseService;
+        }
+
+        public async Task OnGetAsync()
+        {
+            Cases = await _caseService.GetAllCases();
         }
     }
 }
