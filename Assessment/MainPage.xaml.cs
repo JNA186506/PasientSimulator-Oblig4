@@ -7,17 +7,25 @@ namespace Assessment
 {
     public partial class MainPage : ContentPage {
         private CaseService _caseService;
-
-        private readonly ObservableCollection<Case> _cases; 
+        private ObservableCollection<Case> _cases; 
         
-
         public MainPage(CaseService caseService)
         {
             InitializeComponent();
 
             _caseService = caseService;
 
-            _cases = new ObservableCollection<Case>(_caseService.GetAllCases());
+            try
+            {
+                var cases = _caseService.GetAllCases();
+                _cases = new ObservableCollection<Case>(cases);
+                CaseView.ItemsSource = _cases;
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"Failed to load cases: {ex.Message}\n\n{ex.InnerException?.Message}", "OK");
+            }
+
         }
 
     }

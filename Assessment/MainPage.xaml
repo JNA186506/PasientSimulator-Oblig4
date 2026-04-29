@@ -3,14 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Assessment.MainPage">
     <Grid>
-        <ColumnDefinition Width="300" />
-        <ColumnDefinition Width="*" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         
-        <Grid Column="0">
-            <CollectionView BindingContext="{ Binding }" >
+        <Grid Column="1">
+            <CollectionView x:Name="CaseView" BindingContext="{ Binding }" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        
+                        <Border StrokeThickness="1" 
+                                BackgroundColor="AliceBlue"
+                                StrokeShape="RoundRectangle, 40"
+                                Padding="20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding UserId }" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding PatientId }"/>
+                                <Button Grid.Row="1" Grid.Column="1" Text="View Case" />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

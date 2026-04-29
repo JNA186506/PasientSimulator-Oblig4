@@ -18,7 +18,10 @@ public class CaseService {
     }
 
     public List<Case> GetAllCases() {
-        return _context.Cases.ToList();
+        return _context.Cases
+            .Include(p => p.CasePatient)
+            .Include(s => s.Student)
+            .ToList();
     }
 
     public Goal MakeGoal(int currCaseId, string goalName, int timeLimit, string description) {
