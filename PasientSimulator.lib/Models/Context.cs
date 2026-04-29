@@ -28,6 +28,10 @@ public class Context : DbContext {
             .HasKey(c => c.CaseId);
 
         modelBuilder.Entity<Case>()
+            .Property(c => c.CaseId)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Case>()
             .HasOne(c => c.CasePatient)
             .WithMany()
             .HasForeignKey(c => c.PatientId)
@@ -48,6 +52,10 @@ public class Context : DbContext {
         // Configure Patient entity
         modelBuilder.Entity<Patient>()
             .HasKey(p => p.PatientId);
+
+        modelBuilder.Entity<Patient>()
+            .Property(p => p.PatientId)
+            .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Patient>()
             .OwnsOne(p => p.Bloodpressure);
@@ -73,6 +81,13 @@ public class Context : DbContext {
             .HasKey(i => i.Id);
 
         modelBuilder.Entity<Illness>()
+            .Property(i => i.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Illness>()
+            .OwnsOne(i => i.Bloodpressure);
+
+        modelBuilder.Entity<Illness>()
             .HasOne(i => i.Antidote)
             .WithMany()
             .HasForeignKey(i => i.AntidoteId)
@@ -82,12 +97,24 @@ public class Context : DbContext {
         modelBuilder.Entity<Medication>()
             .HasKey(m => m.MedicationId);
 
+        modelBuilder.Entity<Medication>()
+            .Property(m => m.MedicationId)
+            .ValueGeneratedOnAdd();
+
         // Configure Goal entity
         modelBuilder.Entity<Goal>()
             .HasKey(g => g.Id);
 
+        modelBuilder.Entity<Goal>()
+            .Property(g => g.Id)
+            .ValueGeneratedOnAdd();
+        
         // Configure User entity
         modelBuilder.Entity<User>()
             .HasKey(u => u.UserId);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.UserId)
+            .ValueGeneratedOnAdd();
     }
 }

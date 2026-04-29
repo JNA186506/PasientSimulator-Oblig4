@@ -24,8 +24,11 @@ public class CaseService {
         Goal newGoal = new Goal
             { CaseId = currCaseId, GoalName = goalName,
                 Description = description, TimeLimit = timeLimit };
+
+        _context.Add(newGoal);
+        _context.SaveChanges();
         
-        return null;
+        return newGoal;
     }
 
     public List<Goal> GetAllGoals() {
