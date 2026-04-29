@@ -78,14 +78,11 @@ public class Context : DbContext {
 
         // Configure Illness entity
         modelBuilder.Entity<Illness>()
-            .HasKey(i => i.Id);
+            .HasKey(i => i.IllnessId);
 
         modelBuilder.Entity<Illness>()
-            .Property(i => i.Id)
+            .Property(i => i.IllnessId)
             .ValueGeneratedOnAdd();
-
-        modelBuilder.Entity<Illness>()
-            .OwnsOne(i => i.Bloodpressure);
 
         modelBuilder.Entity<Illness>()
             .HasOne(i => i.Antidote)
@@ -103,10 +100,10 @@ public class Context : DbContext {
 
         // Configure Goal entity
         modelBuilder.Entity<Goal>()
-            .HasKey(g => g.Id);
+            .HasKey(g => g.GoalId);
 
         modelBuilder.Entity<Goal>()
-            .Property(g => g.Id)
+            .Property(g => g.GoalId)
             .ValueGeneratedOnAdd();
         
         // Configure User entity

@@ -1,8 +1,8 @@
 ﻿namespace PasientSimulator.lib.Models;
 
 public class Illness {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public int IllnessId { get; set; }
+    public string IllnessName { get; set; }
     
     /**
      * The solution to an illness is being administered the right medication.

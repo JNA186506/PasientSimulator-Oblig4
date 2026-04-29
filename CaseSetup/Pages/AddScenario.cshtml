@@ -38,8 +38,8 @@
         <input type="number" id="temperature" />
         @foreach (var illness in Model.Diagnosis)
         {
-            <label for="@illness.Id">@illness.Name</label>
-            <checkbox id="@illness.Id" name="diagnosis" value="@illness.Name" />
+            <label for="@illness.IllnessId">@illness.IllnessName</label>
+            <checkbox id="@illness.IllnessId" name="diagnosis" value="@illness.IllnessName" />
         }
         @foreach (var allergy in Model.Allergies)
         {
@@ -59,8 +59,8 @@
         </select>
         @foreach (var goal in Model.Goals)
         {
-            <label for="@goal.Id">@goal.Description</label>
-            <input type="checkbox" id="@goal.Id" name="goals" value="@goal.Description" />
+            <label for="@goal.GoalId">@goal.Description</label>
+            <input type="checkbox" id="@goal.GoalId" name="goals" value="@goal.Description" />
         }
         <input type="submit" value="Add scenario" />
     </form>
