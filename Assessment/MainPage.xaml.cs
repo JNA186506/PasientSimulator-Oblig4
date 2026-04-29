@@ -1,22 +1,23 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services;
 
 namespace Assessment
 {
     public partial class MainPage : ContentPage {
-        private Context _context;
+        private CaseService _caseService;
 
         private readonly ObservableCollection<Case> _cases; 
         
 
-        public MainPage(Context context)
+        public MainPage(CaseService caseService)
         {
             InitializeComponent();
-            _context = context;
 
-            _cases = new ObservableCollection<Case>();
-            _context.Cases.Load();
+            _caseService = caseService;
+
+            _cases = new ObservableCollection<Case>(_caseService.GetAllCases());
         }
 
     }

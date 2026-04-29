@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
 
 namespace PasientSimulator.lib.Services;
