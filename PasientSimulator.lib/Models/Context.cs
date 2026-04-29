@@ -73,9 +73,6 @@ public class Context : DbContext {
             .HasKey(i => i.Id);
 
         modelBuilder.Entity<Illness>()
-            .OwnsOne(i => i.Bloodpressure);
-
-        modelBuilder.Entity<Illness>()
             .HasOne(i => i.Antidote)
             .WithMany()
             .HasForeignKey(i => i.AntidoteId)
