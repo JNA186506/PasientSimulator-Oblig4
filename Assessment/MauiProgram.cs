@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using PasientSimulator.lib.Models;
 
 namespace Assessment
 {
@@ -14,6 +16,8 @@ namespace Assessment
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            builder.Services.AddDbContext<Context>();
+            builder.Services.AddTransient<MainPage>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

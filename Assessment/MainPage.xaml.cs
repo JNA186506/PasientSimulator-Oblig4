@@ -1,24 +1,23 @@
-﻿namespace Assessment
-{
-    public partial class MainPage : ContentPage
-    {
-        int count = 0;
+﻿using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using PasientSimulator.lib.Models;
 
-        public MainPage()
+namespace Assessment
+{
+    public partial class MainPage : ContentPage {
+        private Context _context;
+
+        private readonly ObservableCollection<Case> _cases; 
+        
+
+        public MainPage(Context context)
         {
             InitializeComponent();
+            _context = context;
+
+            _cases = new ObservableCollection<Case>();
+            _context.Cases.Load();
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
     }
 }

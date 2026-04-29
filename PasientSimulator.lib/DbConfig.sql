@@ -30,7 +30,7 @@ CREATE TABLE Illnesses
 (
     IllnessId   Integer Primary Key,
     IllnessName VARCHAR(255),
-    Antidote    Integer references Medications (MedicationId)
+    AntidoteId    Integer references Medications (MedicationId)
 )
 
 CREATE TABLE Patients
