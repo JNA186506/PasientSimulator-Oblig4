@@ -66,8 +66,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\PasientSimulator.lib\PasientSimulator.lib.csproj" />
 	</ItemGroup>
 
 </Project>

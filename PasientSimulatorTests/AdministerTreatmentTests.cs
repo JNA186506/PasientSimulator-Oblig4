@@ -14,7 +14,7 @@ public class AdministerTreatmentTests {
     [SetUp]
     public void Setup() {
         influenzaMedication = new Medication { MedicationId = 1, MedicationName = "influenzaMedication" };
-        influenza = new Illness { Id = 1, Antidote = influenzaMedication };
+        influenza = new Illness { IllnessId = 1, Antidote = influenzaMedication };
         wrongMedication = new Medication { MedicationId = 2 };
         noEffectMedication = new Medication { MedicationId = 3 };
         

@@ -1,24 +1,32 @@
-﻿namespace Assessment
-{
-    public partial class MainPage : ContentPage
-    {
-        int count = 0;
+﻿using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
+using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services;
 
-        public MainPage()
+namespace Assessment
+{
+    public partial class MainPage : ContentPage {
+        private CaseService _caseService;
+        private ObservableCollection<Case> _cases; 
+        
+        public MainPage(CaseService caseService)
         {
             InitializeComponent();
+
+            _caseService = caseService;
+
+            try
+            {
+                var cases = _caseService.GetAllCases();
+                _cases = new ObservableCollection<Case>(cases);
+                CaseView.ItemsSource = _cases;
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", $"Failed to load cases: {ex.Message}\n\n{ex.InnerException?.Message}", "OK");
+            }
+
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
     }
 }
