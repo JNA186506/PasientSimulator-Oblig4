@@ -7,16 +7,13 @@
 <div class="text-center">
     <h1 class="display-4">AddScenario</h1>
     <form method="post">
-        @*string patientName, int weight, int age, int sex, int status, int heartrate,
-        int respiratoryRate, double temperature, List<Illness>
-        diagnoses, List<Medication> allergies*@
         <h2>Patient</h2>
         <label for="patientName">Name</label>
-        <input type="text" id="patientName" />
+        <input type="text" name="patientName" id="patientName" />
         <label for="patientWeight">Weight</label>
-        <input type="number" id="patientWeight" />
+        <input type="number" name="patientWeight" id="patientWeight" />
         <label for="patientAge">Age</label>
-        <input type="number" />
+        <input type="number" name="patientAge" id="patientAge"  />
         <label for="selectSex">Velg sex</label>
         <select name="selectSex" id="selectSex">
             <option value="1">Male</option>
@@ -31,11 +28,11 @@
             <option value="4">Dead</option>
         </select>
         <label for="heartrate">Heartrate</label>
-        <input type="number" id="heartrate" />
+        <input type="number" name="heartrate" id="heartrate" />
         <label for="respiratoryRate">Respiratory rate</label>
-        <input type="number" id="respiratoryRate" />
+        <input type="number" name="respiratoryRate" id="respiratoryRate" />
         <label for="temperature">Temperatur</label>
-        <input type="number" id="temperature" />
+        <input type="number" name="temperature" id="temperature" />
         @foreach (var illness in Model.Diagnosis)
         {
             <label for="@illness.IllnessId">@illness.IllnessName</label>
@@ -46,15 +43,15 @@
             <label for="@allergy.MedicationId">@allergy.MedicationName</label>
             <checkbox id="@allergy.MedicationId" name="allergies" value="@allergy.MedicationName" />
         }
+
         <h2>Case</h2>
-        @*int id, Patient casePatient, User student, List<Goal> goals*@
         <label for="caseId">Case id</label>
-        <input type="number" placeholder="id" value="caseId" id="caseId" />
+        <input type="number" placeholder="id" value="caseId" name="caseId" id="caseId" />
         <label for="selectStudent">selectStudent</label>
         <select name="selectStudent" id="selectStudent">
             @foreach (var student in Model.Students)
             {
-                <option value="@student">@student.Name</option>
+                <option value="@student.UserId">@student.Name</option>
             }
         </select>
         @foreach (var goal in Model.Goals)
