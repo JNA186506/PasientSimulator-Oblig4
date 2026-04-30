@@ -43,4 +43,10 @@ public class CaseService {
     public async Task<Goal> FindGoal(int id) {
         return await _context.Goals.FindAsync(id);
     }
+
+    public Task<Case?> GetCaseByIdAsync(int id)
+    {
+        return _context.Cases.FirstOrDefaultAsync(c => c.CaseId == id);
+    }
+
 }
