@@ -13,12 +13,12 @@
         <label for="patientWeight">Weight</label>
         <input type="number" name="patientWeight" id="patientWeight" />
         <label for="patientAge">Age</label>
-        <input type="number" name="patientAge" id="patientAge"  />
+        <input type="number" name="patientAge" id="patientAge" />
         <label for="selectSex">Velg sex</label>
         <select name="selectSex" id="selectSex">
             <option value="1">Male</option>
-            <option value="2">Male</option>
-            <option value="3">Male</option>
+            <option value="2">Female</option>
+            <option value="3">Other</option>
         </select>
         <label for="selectStatus">Velg status</label>
         <select name="selectStatus" id="selectStatus">
@@ -33,21 +33,19 @@
         <input type="number" name="respiratoryRate" id="respiratoryRate" />
         <label for="temperature">Temperatur</label>
         <input type="number" name="temperature" id="temperature" />
-        @foreach (var illness in Model.Diagnosis)
+        @foreach (var illness in Model.Diagnoses)
         {
-            <label for="@illness.IllnessId">@illness.IllnessName</label>
-            <checkbox id="@illness.IllnessId" name="diagnosis" value="@illness.IllnessName" />
+            <label for="illness-@illness.IllnessId">@illness.IllnessName</label>
+            <input type="checkbox" id="illness-@illness.IllnessId" name="diagnoses" value="@illness.IllnessId" />
         }
         @foreach (var allergy in Model.Allergies)
         {
-            <label for="@allergy.MedicationId">@allergy.MedicationName</label>
-            <checkbox id="@allergy.MedicationId" name="allergies" value="@allergy.MedicationName" />
+            <label for="allergy-@allergy.MedicationId">@allergy.MedicationName</label>
+            <input type="checkbox" id="allergy-@allergy.MedicationId" name="allergies" value="@allergy.MedicationId" />
         }
 
         <h2>Case</h2>
-        <label for="caseId">Case id</label>
-        <input type="number" placeholder="id" value="caseId" name="caseId" id="caseId" />
-        <label for="selectStudent">selectStudent</label>
+        <label for="selectStudent">Select student</label>
         <select name="selectStudent" id="selectStudent">
             @foreach (var student in Model.Students)
             {
@@ -56,8 +54,8 @@
         </select>
         @foreach (var goal in Model.Goals)
         {
-            <label for="@goal.GoalId">@goal.Description</label>
-            <input type="checkbox" id="@goal.GoalId" name="goals" value="@goal.Description" />
+            <label for="goal-@goal.GoalId">@goal.Description</label>
+            <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId" />
         }
         <input type="submit" value="Add scenario" />
     </form>

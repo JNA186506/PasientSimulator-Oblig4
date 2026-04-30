@@ -48,12 +48,17 @@ public class PatientService {
         return patient.Diagnoses;
     }
 
-    public async Task<List<Illness>> GetAllDiagnosis() {
+    public async Task<List<Illness>> GetAllDiagnoses() {
         return await _context.Illnesses.ToListAsync();
     }
 
     public async Task<List<Medication>> GetAllAllergies()
     {
         return await _context.Medications.ToListAsync();
+    }
+
+    public async Task<Illness> FindIllness(int id)
+    {
+        return await _context.Illnesses.FindAsync(id);
     }
 }

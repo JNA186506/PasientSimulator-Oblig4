@@ -13,6 +13,10 @@ public class MedicationService {
         return _context.Medications.ToList();
     }
 
+    public async Task<Medication> FindMedication(int id) {
+        return await _context.Medications.FindAsync(id);
+    }
+
     public Medication AddMedication(string name) {
         Medication newMedication = new Medication { MedicationName = name };
 

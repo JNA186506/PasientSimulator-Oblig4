@@ -41,4 +41,8 @@ public class UserService {
     public async Task<List<User>> GetAllStudents() {
         return await _context.Users.Where(s => s.Role == 1).ToListAsync();
     }
+
+    public async Task<User> FindStudent(int num) {
+        return await _context.Users.FindAsync(num);
+    }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
 using System.ComponentModel;
+using System.Linq;
 
 namespace CaseSetup.Pages
 {
@@ -14,7 +15,7 @@ namespace CaseSetup.Pages
         public CaseService CaseService { get; set; }
         public MedicationService MedicationService { get; set; }
         public List<Medication> Allergies { get; set; }
-        public List<Illness> Diagnosis { get; set; }
+        public List<Illness> Diagnoses { get; set; }
         public List<User> Students { get; set; }
         public List<Goal> Goals { get; set; }
         [BindProperty]
@@ -34,11 +35,9 @@ namespace CaseSetup.Pages
         [BindProperty]
         public int Temperature { get; set; }
         [BindProperty]
-        public List<Illness> Diagnoses { get; set; }
+        public List<Illness> PatientDiagnoses { get; set; }
         [BindProperty]
         public List<Medication> PatientAllergies { get; set; }
-        [BindProperty]
-        public int CaseId { get; set; }
         [BindProperty]
         public User Student { get; set; }
         [BindProperty]
@@ -49,13 +48,21 @@ namespace CaseSetup.Pages
             UserService = new UserService(Context);
             CaseService = new CaseService(Context);
             MedicationService = new MedicationService(Context);
-            Allergies = PatientService.GetAllAllergies();
-            Diagnosis = PatientService.GetAllDiagnosis();
-            Students = UserService.GetAllStudents();
-            Goals = CaseService.GetAllGoals();
         }
-        public void OnPost()
+        public async Task OnGetAsync()
         {
+            Allergies = await PatientService.GetAllAllergies();
+            Diagnoses = await PatientService.GetAllDiagnoses();
+            Students = await UserService.GetAllStudents();
+            Goals = await CaseService.GetAllGoals();
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            Allergies = await PatientService.GetAllAllergies();
+            Diagnoses = await PatientService.GetAllDiagnoses();
+            Students = await UserService.GetAllStudents();
+            Goals = await CaseService.GetAllGoals();
+
             PatientName = Request.Form["patientName"];
             if (int.TryParse(Request.Form["patientWeight"], out int weight)) {
                 PatientWeight = weight;
@@ -78,36 +85,45 @@ namespace CaseSetup.Pages
             if (int.TryParse(Request.Form["temperature"], out int temperature)) {
                 Temperature = temperature;
             }
-            List<String> DiagnosesStr = Request.Form["diagnoses"].ToString().Split(',').ToList();
-            foreach (String s in DiagnosesStr) {
-                if (int.TryParse(s, out int num)) {
-                    Diagnoses.Add(PatientService.FindIllness(num));
-                }
-            }
-            List<String> AllergiesStr = Request.Form["allergies"].ToString().Split(',').ToList();
-            foreach (String s in AllergiesStr)
+            PatientDiagnoses = new List<Illness>();
+            PatientAllergies = new List<Medication>();
+            CaseGoals = new List<Goal>();
+
+            List<string> DiagnosesStr = Request.Form["diagnoses"].ToString().Split(',').ToList();
+            foreach (string s in DiagnosesStr)
             {
                 if (int.TryParse(s, out int num))
                 {
-                    Diagnoses.Add(MedicationService.FindMedication(num));
+                    PatientDiagnoses.Add(await PatientService.FindIllness(num));
                 }
             }
-            if (int.TryParse(Request.Form["caseId"], out int caseId)) {
-                CaseId = caseId;
-            }
-            if (int.TryParse(Request.Form["studentId"], out int studentId)) {
-                Student = UserService.FindStudent(studentId);
-            }
-            List<String> GoalsStr = Request.Form["goals"].ToString().Split(',').ToList();
-            foreach (String s in AllergiesStr)
+            Console.WriteLine(DiagnosesStr);
+            List<string> AllergiesStr = Request.Form["allergies"].ToString().Split(',').ToList();
+            foreach (string s in AllergiesStr)
             {
                 if (int.TryParse(s, out int num))
                 {
-                    CaseGoals.Add(CaseService.FindGoal(num));
+                    PatientAllergies.Add(await MedicationService.FindMedication(num));
                 }
             }
-            Patient Patient = PatientService.AddNewPatient(PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, RespiratoryRate, Temperature, Diagnoses, Allergies);
-            CaseService.AddNewCase(CaseId, Patient, Student, CaseGoals);
+            if (int.TryParse(Request.Form["selectStudent"], out int studentId))
+            {
+                Student = await UserService.FindStudent(studentId);
+            }
+            List<string> GoalsStr = Request.Form["goals"].ToString().Split(',').ToList();
+            foreach (string s in GoalsStr)
+            {
+                if (int.TryParse(s, out int num))
+                {
+                    CaseGoals.Add(await CaseService.FindGoal(num));
+                }
+            }
+
+            if (new object?[] { PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies, Student, CaseGoals }.Any(x => x is null)) return Page();
+            Patient Patient = await PatientService.AddNewPatient(PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies);
+            await CaseService.AddNewCase(Patient, Student, CaseGoals);
+
+            return RedirectToPage();
         }
     }
 }
