@@ -13,88 +13,89 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
 (
-    UserId Integer primary key,
+    UserId Integer IDENTITY(1,1) PRIMARY KEY,
     Role   INTEGER NOT NULL,
     Name   TEXT
 )
 
 CREATE TABLE Medications
 (
-    MedicationId        Integer Primary key,
+    MedicationId        Integer IDENTITY(1,1) PRIMARY KEY,
     MedicationName      VARCHAR(255),
     Dosage              Integer,
-    AdministrationRoute TINYINT
+    AdministrationRoute INT
 )
 
 CREATE TABLE Illnesses
 (
-    IllnessId   Integer Primary Key,
+    IllnessId   Integer IDENTITY(1,1) PRIMARY KEY,
     IllnessName VARCHAR(255),
-    AntidoteId    Integer references Medications (MedicationId)
+    AntidoteId  Integer REFERENCES Medications(MedicationId)
 )
 
 CREATE TABLE Patients
 (
-    PatientId        Integer primary key,
-    Status           Integer,
-    PatientName      TEXT,
-    Weight           Integer,
-    Age              Integer,
-    Sex              TINYINT,
-    Heartrate        Integer,
-    BloodPressure_Systolic Integer,
+    PatientId               Integer IDENTITY(1,1) PRIMARY KEY,
+    Status                  Integer,
+    PatientName             TEXT,
+    Weight                  Integer,
+    Age                     Integer,
+    Sex                     INT,
+    Heartrate               Integer,
+    BloodPressure_Systolic  Integer,
     BloodPressure_Diastolic Integer,
-    RespiratoryRate  Integer,
-    OxygenSaturation Decimal(5, 2),
-    Temperature      Decimal(4, 1),
+    RespiratoryRate         Integer,
+    OxygenSaturation        FLOAT,
+    Temperature             FLOAT
 )
 
 CREATE TABLE MedicalHistory
 (
-    PatientId Integer not null references Patients (PatientId),
-    IllnessId Integer not null references Illnesses (IllnessId),
+    PatientId Integer NOT NULL REFERENCES Patients(PatientId),
+    IllnessId Integer NOT NULL REFERENCES Illnesses(IllnessId),
     PRIMARY KEY (PatientId, IllnessId)
 )
 
 CREATE TABLE Diagnoses
 (
-    PatientId Integer not null references Patients (PatientId),
-    IllnessId Integer not null references Illnesses (IllnessId),
+    PatientId Integer NOT NULL REFERENCES Patients(PatientId),
+    IllnessId Integer NOT NULL REFERENCES Illnesses(IllnessId),
     PRIMARY KEY (PatientId, IllnessId)
 )
 
 CREATE TABLE PatientMedications
 (
-    PatientId    Integer not null references Patients (PatientId),
-    MedicationId Integer not null references Medications (MedicationId),
+    PatientId    Integer NOT NULL REFERENCES Patients(PatientId),
+    MedicationId Integer NOT NULL REFERENCES Medications(MedicationId),
     PRIMARY KEY (PatientId, MedicationId)
 )
 
 CREATE TABLE Allergies
 (
-    PatientId    Integer not null references Patients (PatientId),
-    MedicationId Integer not null references Medications (MedicationId),
+    PatientId    Integer NOT NULL REFERENCES Patients(PatientId),
+    MedicationId Integer NOT NULL REFERENCES Medications(MedicationId),
     PRIMARY KEY (PatientId, MedicationId)
 )
 
 CREATE TABLE Cases
 (
-    CaseId    Integer primary key,
-    PatientId Integer not null references Patients (PatientId),
-    UserId Integer not null references Users (UserId)
+    CaseId    Integer IDENTITY(1,1) PRIMARY KEY,
+    PatientId Integer NOT NULL REFERENCES Patients(PatientId),
+    UserId    Integer NOT NULL REFERENCES Users(UserId)
 )
 
 CREATE TABLE Goals
 (
-    GoalId      Integer primary key,
-    Name        VARCHAR(255),
+    GoalId      Integer IDENTITY(1,1) PRIMARY KEY,
+    GoalName        VARCHAR(255),
     TimeLimit   Integer,
     Description TEXT,
+    CaseId Integer REFERENCES Cases(CaseId)
 )
 
 CREATE TABLE CaseGoals
 (
-    CaseId Integer references Cases (CaseId),
-    GoalId Integer references Goals (GoalId),
+    CaseId Integer REFERENCES Cases(CaseId),
+    GoalId Integer REFERENCES Goals(GoalId),
     PRIMARY KEY (CaseId, GoalId)
 )

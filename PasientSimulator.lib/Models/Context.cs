@@ -61,20 +61,44 @@ public class Context : DbContext {
             .OwnsOne(p => p.Bloodpressure);
 
         modelBuilder.Entity<Patient>()
-            .HasMany(p => p.MedicalHistory)
-            .WithMany();
+            .HasMany(p => p.Diagnoses)
+            .WithMany()
+            .UsingEntity(j => {
+                j.ToTable("Diagnoses");
+                j.Property<int>("PatientId");
+                j.Property<int>("IllnessId");
+                j.HasKey("PatientId", "IllnessId");
+            });
 
         modelBuilder.Entity<Patient>()
-            .HasMany(p => p.Diagnoses)
-            .WithMany();
+            .HasMany(p => p.MedicalHistory)
+            .WithMany()
+            .UsingEntity(j => {
+                j.ToTable("MedicalHistory");
+                j.Property<int>("PatientId");
+                j.Property<int>("IllnessId");
+                j.HasKey("PatientId", "IllnessId");
+            });
 
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Medications)
-            .WithMany();
+            .WithMany()
+            .UsingEntity(j => {
+                j.ToTable("PatientMedications");
+                j.Property<int>("PatientId");
+                j.Property<int>("MedicationId");
+                j.HasKey("PatientId", "MedicationId");
+            });
 
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Allergies)
-            .WithMany();
+            .WithMany()
+            .UsingEntity(j => {
+                j.ToTable("Allergies");
+                j.Property<int>("PatientId");
+                j.Property<int>("MedicationId");
+                j.HasKey("PatientId", "MedicationId");
+            });
 
         // Configure Illness entity
         modelBuilder.Entity<Illness>()

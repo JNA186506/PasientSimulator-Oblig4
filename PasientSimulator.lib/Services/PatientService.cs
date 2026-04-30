@@ -14,15 +14,16 @@ public class PatientService {
         return await _context.Patients.ToListAsync();
     }
 
-    public async Task<Patient> AddNewPatient(
-        string patientName, int weight, int age, int sex, int status, int heartrate,
-        int respiratoryRate, double temperature, List<Illness> diagnoses, List<Medication> allergies) {
+    public async Task<Patient> AddNewPatient(string name, int weight, int age, int sex, int status, int heartrate, int respiratoryrate, int temperature, List<Illness> diagnoses, List<Medication> allergies) {
+        foreach (var illness in diagnoses)
+            _context.Illnesses.Attach(illness);
 
+        foreach (var medication in allergies)
+            _context.Medications.Attach(medication); 
         Patient newPatient = new Patient {
-            PatientName = patientName, Weight = weight, Age = age, Sex = (Patient.SexEnum)sex, Status = (Patient.StatusEnum)status, Heartrate = heartrate,
-            RespiratoryRate = respiratoryRate, Temperature = temperature, Diagnoses = diagnoses, Allergies = allergies
+            PatientName = name, Weight = weight, Age = age, Sex = (Patient.SexEnum)sex, Status = (Patient.StatusEnum) status, Heartrate = heartrate, RespiratoryRate = respiratoryrate, Temperature = temperature, Diagnoses = diagnoses, Allergies = allergies
         };
-
+        
         _context.Add(newPatient);
         await _context.SaveChangesAsync();
         
