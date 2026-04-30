@@ -15,7 +15,8 @@
                         <Border StrokeThickness="1" 
                                 BackgroundColor="AliceBlue"
                                 StrokeShape="RoundRectangle, 30" 
-                                Padding="20">
+                                Padding="15"
+                                Margin="20">
                             <Grid Padding="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -25,9 +26,19 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="50" />
                                 </Grid.RowDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0" >
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="CASE #" FontSize="24" FontAttributes="Bold"  /> 
+                                            <Span Text="{Binding CaseId }" FontSize="24" FontAttributes="Bold"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="1" Grid.Column="0" >
                                    <Label.FormattedText>
                                        <FormattedString>
                                            <Span Text="Patient: " FontSize="16" /> 
@@ -35,7 +46,7 @@
                                        </FormattedString>
                                    </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="0" Grid.Column="1">
+                                <Label Grid.Row="1" Grid.Column="1">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Student: " FontSize="16" />
@@ -43,7 +54,7 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="1" Grid.Column="0">
+                                <Label Grid.Row="2" Grid.Column="0">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Patient status: " FontSize="16" />
@@ -51,7 +62,7 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="2" Grid.Column="0">
+                                <Label Grid.Row="3" Grid.Column="0">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Current Temperature: " FontSize="16" />
@@ -59,7 +70,10 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Button Grid.Row="3" Grid.Column="1" Text="View Case" />
+                                <Button Grid.Row="5" Grid.Column="1" 
+                                        Text="View Case"
+                                        MaximumWidthRequest="100"
+                                        HorizontalOptions="Start"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
