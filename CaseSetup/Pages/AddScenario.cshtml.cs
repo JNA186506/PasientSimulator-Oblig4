@@ -42,12 +42,11 @@ namespace CaseSetup.Pages
         public User Student { get; set; }
         [BindProperty]
         public List<Goal> CaseGoals { get; set; }
-        public AddScenarioModel() {
-            Context = new Context();
-            PatientService = new PatientService(Context);
-            UserService = new UserService(Context);
-            CaseService = new CaseService(Context);
-            MedicationService = new MedicationService(Context);
+        public AddScenarioModel(PatientService patientService, UserService userService, CaseService caseService, MedicationService medicationService) {
+            PatientService = patientService;
+            UserService = userService;
+            CaseService = caseService;
+            MedicationService = medicationService;
         }
         public async Task OnGetAsync()
         {
