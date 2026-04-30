@@ -3,8 +3,12 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/Users/johannesantonsen/.nuget/packages/microsoft.data.sqlclient/7.0.1/ref/net9.0/Microsoft.Data.SqlClient.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=96382e94_002D7a87_002D451a_002Da103_002D57badce4abcb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AdministerMedicineTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::7B2AAF81-16FA-4127-A198-E37F34A49139::net10.0::PasientSimulatorTests.AdministerTreatmentTests.AdministerMedicineTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=96382e94_002D7a87_002D451a_002Da103_002D57badce4abcb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AdministerMedicineTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::7B2AAF81-16FA-4127-A198-E37F34A49139::net10.0::PasientSimulatorTests.AdministerTreatmentTests.AdministerMedicineTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::7B2AAF81-16FA-4127-A198-E37F34A49139::net10.0::PasientSimulatorTests.PatientServiceTest.AddNewPatientTest&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;ProjectFile&gt;7B2AAF81-16FA-4127-A198-E37F34A49139/f:CaseServiceTests.cs&lt;/ProjectFile&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

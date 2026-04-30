@@ -8,6 +8,12 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
+        <StackLayout Grid.Column="0" HorizontalOptions="Center">
+            <Label Text="Filter cases" FontSize="24" FontAttributes="Bold"/>
+            <RadioButton Content="Active Cases" GroupName="FilterCases" IsChecked="True"/> 
+            <RadioButton Content="Inactive Cases" GroupName="FilterCases" /> 
+            <RadioButton Content="All Cases" GroupName="FilterCases" /> 
+        </StackLayout>
         <Grid Column="1">
             <CollectionView x:Name="CaseView">
                 <CollectionView.ItemTemplate>

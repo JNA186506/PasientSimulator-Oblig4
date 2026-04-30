@@ -92,9 +92,12 @@ namespace CaseSetup.Pages
             List<string> DiagnosesStr = Request.Form["diagnoses"].ToString().Split(',').ToList();
             foreach (string s in DiagnosesStr)
             {
-                if (int.TryParse(s, out int num))
-                {
-                    PatientDiagnoses.Add(await PatientService.FindIllness(num));
+                if (int.TryParse(s, out int num)) {
+                    var illness = Diagnoses.FirstOrDefault(d => d.IllnessId == num);
+                    if (illness != null) {
+                        PatientDiagnoses.Add(Diagnoses.First(d => d.IllnessId == num));
+                    }
+                    // PatientDiagnoses.Add(await PatientService.FindIllness(num));
                 }
             }
             Console.WriteLine(DiagnosesStr);
@@ -103,7 +106,11 @@ namespace CaseSetup.Pages
             {
                 if (int.TryParse(s, out int num))
                 {
-                    PatientAllergies.Add(await MedicationService.FindMedication(num));
+                    var illness = Diagnoses.FirstOrDefault(d => d.IllnessId == num);
+                    if (illness != null) {
+                        PatientAllergies.Add(Allergies.First(a => a.MedicationId == num));
+                    }
+                    // PatientAllergies.Add(await MedicationService.FindMedication(num));
                 }
             }
             if (int.TryParse(Request.Form["selectStudent"], out int studentId))
