@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public class PatientService {
-    private Context _context;
+public class PatientService : IPatientService {
+    private readonly Context _context;
 
     public PatientService(Context context) {
         _context = context;
@@ -14,20 +15,21 @@ public class PatientService {
         return await _context.Patients.ToListAsync();
     }
 
-    public async Task<Patient> AddNewPatient(string name, int weight, int age, int sex, int status, int heartrate, BloodPressure bloodPressure, int respiratoryrate, int temperature, List<Illness> diagnoses, List<Medication> allergies) {
-        foreach (var illness in diagnoses)
+    public async Task<Patient> AddNewPatient(Patient patient) {
+        foreach (var illness in patient.Diagnoses)
             _context.Illnesses.Attach(illness);
 
-        foreach (var medication in allergies)
-            _context.Medications.Attach(medication); 
-        Patient newPatient = new Patient {
-            PatientName = name, Weight = weight, Age = age, Sex = (Patient.SexEnum)sex, Status = (Patient.StatusEnum) status, Heartrate = heartrate, BloodPressure = bloodPressure, RespiratoryRate = respiratoryrate, Temperature = temperature, Diagnoses = diagnoses, Allergies = allergies
+        foreach (var medication in patient.Allergies)
+            _context.Medications.Attach(medication);
+
+        patient.Bloodpressure ??= new BloodPressure {
+            Systolic = 120, Diastolic = 80
         };
-        
-        _context.Add(newPatient);
+      
+        _context.Add(patient);
         await _context.SaveChangesAsync();
         
-        return newPatient;
+        return patient;
     }
 
     public async Task<bool> AddIllness(Illness illness, Patient patient) {
@@ -43,7 +45,7 @@ public class PatientService {
             .FirstOrDefaultAsync(p => p.PatientId == patient.PatientId);
         
         if (p == null) {
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException("Something went wrong while trying to fetch diagnoses");
         }
 
         return patient.Diagnoses;
@@ -58,8 +60,12 @@ public class PatientService {
         return await _context.Medications.ToListAsync();
     }
 
-    public async Task<Illness> FindIllness(int id)
-    {
-        return await _context.Illnesses.FindAsync(id);
+    public async Task<Illness> FindIllness(int id) {
+        Illness? illness = await _context.Illnesses.FindAsync(id);
+        
+        if (illness == null)
+            throw new KeyNotFoundException($"Illness with {id} was not found");
+
+        return illness;
     }
 }

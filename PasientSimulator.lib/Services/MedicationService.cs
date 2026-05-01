@@ -1,8 +1,9 @@
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public class MedicationService {
+public class MedicationService : IMedicationService {
     private readonly Context _context;
 
     public MedicationService(Context context) {

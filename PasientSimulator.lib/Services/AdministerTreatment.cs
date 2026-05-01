@@ -1,10 +1,11 @@
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public static class AdministerTreatment {
+public class AdministerTreatment : IAdministerTreatment {
 
-    public static bool AdministerMedicine(Medication medicine, Patient patient) {
+    public bool AdministerMedicine(Medication medicine, Patient patient) {
 
         bool isAllergic = patient.Allergies.Any(m => m.MedicationId == medicine.MedicationId);
 
@@ -28,7 +29,7 @@ public static class AdministerTreatment {
      * If the Patient did not get administered oxygen, the method will return false.
      * If the Patient is already saturated with oxygen, it cannot receive more and the method will return false.
      */
-    public static bool AdministerOxygen(Patient patient) {
+    public bool AdministerOxygen(Patient patient) {
         bool patientIsSaturated = patient.OxygenSaturation > 99;
 
         if (patientIsSaturated) {
@@ -42,7 +43,7 @@ public static class AdministerTreatment {
     /**
      * This method decreases the patients' temperature.
      */
-    public static double DecreaseTemperature(Patient patient) {
+    public double DecreaseTemperature(Patient patient) {
         double newTemp = patient.Temperature -= 10;
 
         patient.Temperature = newTemp;

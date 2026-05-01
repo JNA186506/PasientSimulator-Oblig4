@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public class UserService {
-    private Context _context;
+public class UserService : IUserService {
+    private readonly Context _context;
 
     public UserService(Context context) {
         _context = context;
@@ -42,7 +43,12 @@ public class UserService {
         return await _context.Users.Where(s => s.Role == 1).ToListAsync();
     }
 
-    public async Task<User> FindStudent(int num) {
-        return await _context.Users.FindAsync(num);
+    public async Task<User> FindStudent(int id) {
+        User? user = await _context.Users.FindAsync(id);
+
+        if (user == null) {
+            throw new KeyNotFoundException($"User with id {id} was not found");
+        }
+        return user;
     }
 }

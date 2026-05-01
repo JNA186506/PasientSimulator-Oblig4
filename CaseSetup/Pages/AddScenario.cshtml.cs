@@ -18,27 +18,27 @@ namespace CaseSetup.Pages
         public List<User> Students { get; set; }
         public List<Goal> Goals { get; set; }
         [BindProperty]
-        public String PatientName { get; set; }
+        public String patientName { get; set; }
         [BindProperty]
-        public int PatientWeight { get; set; }
+        public int patientWeight { get; set; }
         [BindProperty]
-        public int PatientAge { get; set; }
+        public int patientAge { get; set; }
         [BindProperty]
-        public int PatientSex { get; set; }
+        public int patientSex { get; set; }
         [BindProperty]
-        public int SelectStatus { get; set; }
+        public int selectStatus { get; set; }
         [BindProperty]
-        public int Heartrate { get; set; }
+        public int heartrate { get; set; }
         [BindProperty]
         public BloodPressure BloodPressure { get; set; }
         [BindProperty]
-        public int RespiratoryRate { get; set; }
+        public int respiratoryRate { get; set; }
         [BindProperty]
-        public int Temperature { get; set; }
+        public int temperature { get; set; }
         [BindProperty]
-        public List<Illness> PatientDiagnoses { get; set; }
+        public List<Illness> patientDiagnoses { get; set; }
         [BindProperty]
-        public List<Medication> PatientAllergies { get; set; }
+        public List<Medication> patientAllergies { get; set; }
         [BindProperty]
         public User Student { get; set; }
         [BindProperty]
@@ -63,33 +63,33 @@ namespace CaseSetup.Pages
             Students = await UserService.GetAllStudents();
             Goals = await CaseService.GetAllGoals();
 
-            PatientName = Request.Form["patientName"];
+            patientName = Request.Form["patientName"];
             if (int.TryParse(Request.Form["patientWeight"], out int weight)) {
-                PatientWeight = weight;
+                patientWeight = weight;
             }
             if (int.TryParse(Request.Form["patientAge"], out int age)) {
-                PatientAge = age;
+                patientAge = age;
             }
             if (int.TryParse(Request.Form["selectSex"], out int sex)) {
-                PatientSex = sex;
+                patientSex = sex;
             }
             if (int.TryParse(Request.Form["selectStatus"], out int status)) {
-                SelectStatus = status;
+                selectStatus = status;
             }
-            if (int.TryParse(Request.Form["heartrate"], out int heartrate)) {
-                Heartrate = heartrate;
+            if (int.TryParse(Request.Form["heartrate"], out int parsedHeartrate)) {
+                heartrate = parsedHeartrate;
             }
             if (int.TryParse(Request.Form["bloodpressureSystolic"], out int bloodpressureSystolic) && int.TryParse(Request.Form["bloodpressureDiastolic"], out int bloodpressureDiastolic)) {
                 BloodPressure = new BloodPressure { Systolic = bloodpressureSystolic, Diastolic = bloodpressureDiastolic };
             }
-            if (int.TryParse(Request.Form["respiratoryRate"], out int respiratoryRate)) {
-                RespiratoryRate = respiratoryRate;
+            if (int.TryParse(Request.Form["respiratoryRate"], out int parsedRespiratoryRate)) {
+                respiratoryRate = respiratoryRate;
             }
-            if (int.TryParse(Request.Form["temperature"], out int temperature)) {
-                Temperature = temperature;
+            if (int.TryParse(Request.Form["temperature"], out int parsedTemperature)) {
+                temperature = parsedTemperature;
             }
-            PatientDiagnoses = new List<Illness>();
-            PatientAllergies = new List<Medication>();
+            patientDiagnoses = new List<Illness>();
+            patientAllergies = new List<Medication>();
             CaseGoals = new List<Goal>();
 
             List<string> DiagnosesStr = Request.Form["diagnoses"].ToString().Split(',').ToList();
@@ -98,7 +98,7 @@ namespace CaseSetup.Pages
                 if (int.TryParse(s, out int num)) {
                     var illness = Diagnoses.FirstOrDefault(d => d.IllnessId == num);
                     if (illness != null) {
-                        PatientDiagnoses.Add(Diagnoses.First(d => d.IllnessId == num));
+                        patientDiagnoses.Add(Diagnoses.First(d => d.IllnessId == num));
                     }
                     // PatientDiagnoses.Add(await PatientService.FindIllness(num));
                 }
@@ -111,7 +111,7 @@ namespace CaseSetup.Pages
                 {
                     var illness = Diagnoses.FirstOrDefault(d => d.IllnessId == num);
                     if (illness != null) {
-                        PatientAllergies.Add(Allergies.First(a => a.MedicationId == num));
+                        patientAllergies.Add(Allergies.First(a => a.MedicationId == num));
                     }
                     // PatientAllergies.Add(await MedicationService.FindMedication(num));
                 }
@@ -129,9 +129,20 @@ namespace CaseSetup.Pages
                 }
             }
 
-            if (new object?[] { PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, BloodPressure, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies, Student, CaseGoals }.Any(x => x is null)) return Page();
-            Patient Patient = await PatientService.AddNewPatient(PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, BloodPressure, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies);
-            await CaseService.AddNewCase(Patient, Student, CaseGoals);
+            if (new object?[] { patientName, patientWeight, patientAge, patientSex, selectStatus, parsedHeartrate, parsedRespiratoryRate, parsedTemperature, patientDiagnoses, patientAllergies, Student, CaseGoals }.Any(x => x is null)) return Page();
+            Patient patient = new Patient {
+                PatientName = patientName,
+                Weight = patientWeight,
+                Age = patientAge,
+                Sex = (Patient.SexEnum)patientSex,
+                Status = (Patient.StatusEnum)selectStatus,
+                Heartrate = parsedHeartrate,
+                Allergies = patientAllergies,
+                Diagnoses = patientDiagnoses,
+            };
+            
+            Patient newPatient = await PatientService.AddNewPatient(patient);
+            await CaseService.AddNewCase(newPatient, Student, CaseGoals);
 
             return RedirectToPage();
         }

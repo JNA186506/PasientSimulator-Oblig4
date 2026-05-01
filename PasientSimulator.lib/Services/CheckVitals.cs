@@ -1,8 +1,9 @@
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public class CheckVitals {
+public class CheckVitals : ICheckVitals {
 
     public int CheckHR(Patient patient){
     return patient.Heartrate;

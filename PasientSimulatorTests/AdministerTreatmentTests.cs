@@ -10,6 +10,7 @@ public class AdministerTreatmentTests {
     private Medication influenzaMedication;
     private Medication wrongMedication;
     private Medication noEffectMedication;
+    private AdministerTreatment _administerTreatment;
     
     [SetUp]
     public void Setup() {
@@ -40,17 +41,17 @@ public class AdministerTreatmentTests {
     [Test]
     public void AdministerMedicineTest() {
 
-        bool allergicAdministeration = AdministerTreatment.AdministerMedicine(wrongMedication, p1);
+        bool allergicAdministeration = _administerTreatment.AdministerMedicine(wrongMedication, p1);
 
         Assert.That(allergicAdministeration, Is.False, "The wrong medication was administered, the patient was allergic and is now severely sick"); 
         
         Assert.That(p1.Status, Is.EqualTo(Patient.StatusEnum.SeverelySick));
 
-        bool wrongAdministration = AdministerTreatment.AdministerMedicine(noEffectMedication, p1);
+        bool wrongAdministration = _administerTreatment.AdministerMedicine(noEffectMedication, p1);
         
         Assert.That(wrongAdministration, Is.False, "The wrong medication was administered, it had no effect...");
 
-        bool correctAdministration = AdministerTreatment.AdministerMedicine(influenzaMedication, p1);
+        bool correctAdministration = _administerTreatment.AdministerMedicine(influenzaMedication, p1);
         
         Assert.That(correctAdministration, Is.True, "The correct medicine was administered, the patient is now healthy!");
 

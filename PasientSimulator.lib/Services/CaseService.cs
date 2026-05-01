@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public class CaseService {
-    private Context _context;
+public class CaseService : ICaseService {
+    private readonly Context _context;
 
     public CaseService(Context context) {
         _context = context;
