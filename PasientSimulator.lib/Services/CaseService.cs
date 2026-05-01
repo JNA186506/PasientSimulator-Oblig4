@@ -21,15 +21,6 @@ public class CaseService : ICaseService {
     public async Task<List<Case>> GetAllCases() {
         return await _context.Cases
             .Include(c => c.CasePatient)
-                .ThenInclude(p => p.Diagnoses)
-            .Include(c => c.CasePatient)
-                .ThenInclude(p => p.MedicalHistory)
-            .Include(c => c.CasePatient)
-                .ThenInclude(p => p.Medications)
-            .Include(c => c.CasePatient)
-                .ThenInclude(p => p.Allergies)
-            .Include(c => c.CasePatient)
-                .ThenInclude(p => p.BloodPressure)
             .Include(c => c.Student)
             .Include(c => c.Goals)
             .ToListAsync();
