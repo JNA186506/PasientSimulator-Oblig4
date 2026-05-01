@@ -2,12 +2,13 @@ using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace Assessment
 {
     public partial class CasePage : ContentPage
     {
-        private readonly CaseService _caseService;
+        private readonly ICaseService _caseService;
         private readonly int _caseId;
         private Case? _case;
 

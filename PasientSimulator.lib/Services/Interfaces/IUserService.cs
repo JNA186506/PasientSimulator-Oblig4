@@ -7,5 +7,5 @@ public interface IUserService {
     Task<bool> RemoveUser(int id);
     Task AddCase(User user, Case newCase);
     Task<List<User>> GetAllStudents();
-    Task<User> FindStudent(int num);
+    Task<User> FindStudent(int id);
 }

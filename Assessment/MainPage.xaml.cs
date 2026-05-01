@@ -2,11 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace Assessment
 {
     public partial class MainPage : ContentPage {
-        private CaseService _caseService;
+        private ICaseService _caseService;
         private ObservableCollection<Case> _cases; 
         
         public MainPage(CaseService caseService)

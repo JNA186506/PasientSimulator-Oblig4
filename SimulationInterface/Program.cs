@@ -1,10 +1,10 @@
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
+using PasientSimulator.lib.Services.Interfaces;
 
 namespace SimulationInterface;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using PasientSimulator.lib;
+
 
 static class Program {
     /// <summary>
@@ -18,13 +18,14 @@ static class Program {
         var services = new ServiceCollection();
 
         services.AddDbContext<Context>();
-        services.AddScoped<PatientService>();
-        services.AddScoped<CaseService>();
-        services.AddTransient<Form1>();
+        services.AddScoped<IPatientService, PatientService>();
+        services.AddScoped<ICaseService, CaseService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddTransient<CurrentCaseView>();
 
         var provider = services.BuildServiceProvider();
 
-        var mainForm = provider.GetRequiredService<Form1>();
+        var mainForm = provider.GetRequiredService<CurrentCaseView>();
        
         Application.Run(mainForm);
         
