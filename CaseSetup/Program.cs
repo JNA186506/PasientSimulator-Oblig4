@@ -9,6 +9,7 @@ builder.Services.AddDbContext<Context>();
 builder.Services.AddScoped<CaseService>();
 builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<MedicationService>();
 
 var app = builder.Build();
 

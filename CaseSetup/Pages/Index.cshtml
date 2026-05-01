@@ -8,16 +8,20 @@
     <h1 class="display-4">Case Setup</h1>
     <h2>Patient case scenario</h2>
     <p>Here comes the list of patient case scenarios.</p>
-    <ul>
-        @foreach (var scenario in Model.Cases) {
-            <li>@scenario.CasePatient | @scenario.Student | @scenario.Goals</li>
+    @foreach (var scenario in Model.Cases) {
+        <section>
+            <p>@scenario.CasePatient.PatientName | @scenario.Student.Name</p>
+            <h3>Goals</h3>
+            @foreach (var goal in @scenario.Goals) {
+                <p>goal.Description</p>
+            }
             <form method="get">
                 <input type="hidden" value="@scenario" />
                 <button type="submit" asp-page="/ChangeScenario">Change scenario</button>
                 <button type="submit" asp-page="/ViewScenario">View scenario</button>
             </form>
-        }
-    </ul>
+        </section>
+    }
     <form method="get">
         <button type="submit" asp-page="/AddScenario">Add scenario</button>
     </form>

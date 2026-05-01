@@ -9,7 +9,6 @@ namespace CaseSetup.Pages
 {
     public class AddScenarioModel : PageModel
     {
-        public Context Context { get; set; }
         public PatientService PatientService { get; set; }
         public UserService UserService { get; set; }
         public CaseService CaseService { get; set; }
@@ -30,6 +29,8 @@ namespace CaseSetup.Pages
         public int SelectStatus { get; set; }
         [BindProperty]
         public int Heartrate { get; set; }
+        [BindProperty]
+        public BloodPressure BloodPressure { get; set; }
         [BindProperty]
         public int RespiratoryRate { get; set; }
         [BindProperty]
@@ -78,6 +79,9 @@ namespace CaseSetup.Pages
             if (int.TryParse(Request.Form["heartrate"], out int heartrate)) {
                 Heartrate = heartrate;
             }
+            if (int.TryParse(Request.Form["bloodpressureSystolic"], out int bloodpressureSystolic) && int.TryParse(Request.Form["bloodpressureDiastolic"], out int bloodpressureDiastolic)) {
+                BloodPressure = new BloodPressure { Systolic = bloodpressureSystolic, Diastolic = bloodpressureDiastolic };
+            }
             if (int.TryParse(Request.Form["respiratoryRate"], out int respiratoryRate)) {
                 RespiratoryRate = respiratoryRate;
             }
@@ -125,8 +129,8 @@ namespace CaseSetup.Pages
                 }
             }
 
-            if (new object?[] { PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies, Student, CaseGoals }.Any(x => x is null)) return Page();
-            Patient Patient = await PatientService.AddNewPatient(PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies);
+            if (new object?[] { PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, BloodPressure, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies, Student, CaseGoals }.Any(x => x is null)) return Page();
+            Patient Patient = await PatientService.AddNewPatient(PatientName, PatientWeight, PatientAge, PatientSex, SelectStatus, Heartrate, BloodPressure, RespiratoryRate, Temperature, PatientDiagnoses, PatientAllergies);
             await CaseService.AddNewCase(Patient, Student, CaseGoals);
 
             return RedirectToPage();
