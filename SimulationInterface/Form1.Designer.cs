@@ -1,6 +1,9 @@
-﻿namespace SimulationInterface;
+﻿using PasientSimulator.lib.Services;
+
+namespace SimulationInterface;
 
 partial class Form1 {
+
     /// <summary>
     ///  Required designer variable.
     /// </summary>
