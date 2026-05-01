@@ -58,7 +58,7 @@ public class Context : DbContext {
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Patient>()
-            .OwnsOne(p => p.Bloodpressure);
+            .OwnsOne(p => p.BloodPressure);
 
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Diagnoses)

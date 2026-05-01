@@ -22,6 +22,6 @@ public class CheckVitals : ICheckVitals {
     }
 
     public (int Systolic, int Diastolic) CheckBloodPressure(Patient patient) {
-        return (patient.Bloodpressure.Systolic, patient.Bloodpressure.Diastolic);
+        return (patient.BloodPressure.Systolic, patient.BloodPressure.Diastolic);
     }
 }

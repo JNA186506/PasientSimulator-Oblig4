@@ -30,7 +30,7 @@ namespace CaseSetup.Pages
         [BindProperty]
         public int heartrate { get; set; }
         [BindProperty]
-        public BloodPressure BloodPressure { get; set; }
+        public BloodPressure bloodPressure { get; set; }
         [BindProperty]
         public int respiratoryRate { get; set; }
         [BindProperty]
@@ -80,7 +80,7 @@ namespace CaseSetup.Pages
                 heartrate = parsedHeartrate;
             }
             if (int.TryParse(Request.Form["bloodpressureSystolic"], out int bloodpressureSystolic) && int.TryParse(Request.Form["bloodpressureDiastolic"], out int bloodpressureDiastolic)) {
-                BloodPressure = new BloodPressure { Systolic = bloodpressureSystolic, Diastolic = bloodpressureDiastolic };
+                bloodPressure = new BloodPressure { Systolic = bloodpressureSystolic, Diastolic = bloodpressureDiastolic };
             }
             if (int.TryParse(Request.Form["respiratoryRate"], out int parsedRespiratoryRate)) {
                 respiratoryRate = respiratoryRate;
@@ -139,6 +139,7 @@ namespace CaseSetup.Pages
                 Heartrate = parsedHeartrate,
                 Allergies = patientAllergies,
                 Diagnoses = patientDiagnoses,
+                BloodPressure = bloodPressure
             };
             
             Patient newPatient = await PatientService.AddNewPatient(patient);

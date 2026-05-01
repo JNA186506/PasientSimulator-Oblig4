@@ -27,7 +27,7 @@ public class AdministerTreatmentTests {
             Sex = Patient.SexEnum.Male,
             Status = Patient.StatusEnum.Sick,
             Heartrate = 88,
-            Bloodpressure = new BloodPressure { Systolic = 140, Diastolic = 90 },
+            BloodPressure = new BloodPressure { Systolic = 140, Diastolic = 90 },
             RespiratoryRate = 18,
             OxygenSaturation = 96.5,
             Temperature = 38.2,

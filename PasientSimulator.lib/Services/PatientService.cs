@@ -22,7 +22,7 @@ public class PatientService : IPatientService {
         foreach (var medication in patient.Allergies)
             _context.Medications.Attach(medication);
 
-        patient.Bloodpressure ??= new BloodPressure {
+        patient.BloodPressure ??= new BloodPressure {
             Systolic = 120, Diastolic = 80
         };
       
