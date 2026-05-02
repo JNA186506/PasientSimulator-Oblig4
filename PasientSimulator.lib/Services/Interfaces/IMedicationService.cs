@@ -4,7 +4,7 @@ namespace PasientSimulator.lib.Services.Interfaces;
 
 public interface IMedicationService
 {
-    List<Medication> GetAllMedications();
+    Task<List<Medication>> GetAllMedications();
     Task<Medication> FindMedication(int id);
     Medication AddMedication(string name);
     bool IsAntidote(Medication medication, Patient patient);

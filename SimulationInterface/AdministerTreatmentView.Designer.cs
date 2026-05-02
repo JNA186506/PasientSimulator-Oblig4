@@ -34,12 +34,43 @@ partial class AdministerTreatmentView
         this.ClientSize = new System.Drawing.Size(800, 450);
         this.Text = "AdministerTreatmentView";
 
-        buttonOxygen = new Button
+        labelTitle = new Label
         {
-            Text = "Give oxygen",
-            Location = new Point (20,350),
-            Size = new Size(130,36)
+            Text = "Administer treatment",
+            Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+            Location = new Point(20, 18),
+            Size = new Size(460, 32)
         };
+
+        var groupMedicationBox = new GroupBox
+        {
+            Text = "Medications",
+            Location = new Point(20, 65),
+            Size = new Size(460, 130)
+        };
+
+        flowPanelMedications = new FlowLayoutPanel
+        {
+            Location = new Point(8, 22),
+            Size = new Size(440, 58),
+            WrapContents = true
+        };
+        groupMedicationBox.Controls.Add(flowPanelMedications);
+
+        var groupLifeSupportBox = new GroupBox
+        {
+            Text = "Life support",
+            Location = new Point(20, 210),
+            Size = new Size(460, 90)
+        };
+
+        flowPanelLifeSupport = new FlowLayoutPanel
+        {
+            Location = new Point(8, 22),
+            Size = new Size(440, 58),
+            WrapContents = true
+        };
+        groupLifeSupportBox.Controls.Add(flowPanelLifeSupport);
 
         buttonCancel = new Button
         {
@@ -51,7 +82,10 @@ partial class AdministerTreatmentView
         
         Controls.AddRange(new Control[]
         {
-            buttonOxygen, buttonCancel
+            labelTitle,
+            buttonCancel,
+            groupMedicationBox,
+            groupLifeSupportBox
         });
         
         Text = "Administer Treatment";
@@ -66,7 +100,9 @@ partial class AdministerTreatmentView
 
     }
 
-    private Button buttonOxygen, buttonCancel;
+    private Button buttonCancel;
+    private Label labelTitle;
+    private FlowLayoutPanel flowPanelMedications, flowPanelLifeSupport;
 
     #endregion
 }

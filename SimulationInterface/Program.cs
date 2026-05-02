@@ -23,6 +23,7 @@ internal static class Program
         services.AddScoped<ICaseService, CaseService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAdministerTreatment, AdministerTreatment>();
+        services.AddScoped<IMedicationService, MedicationService>();
         services.AddTransient<CurrentCaseView>();
         services.AddTransient<AdministerTreatmentView>();
 

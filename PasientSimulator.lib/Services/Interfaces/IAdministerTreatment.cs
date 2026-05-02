@@ -4,7 +4,7 @@ namespace PasientSimulator.lib.Services.Interfaces;
 
 public interface IAdministerTreatment
 {
-    bool AdministerMedicine(Medication medicine, Patient patient);
-    bool AdministerOxygen(Patient patient);
-    double DecreaseTemperature(Patient patient);
+    Task<bool> AdministerMedicine(Medication medicine, Patient patient);
+    Task<bool> AdministerOxygen(Patient patient);
+    Task<double> DecreaseTemperature(Patient patient);
 }

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services.Interfaces;
 
@@ -12,9 +13,9 @@ public class MedicationService : IMedicationService
         _context = context;
     }
 
-    public List<Medication> GetAllMedications()
+    public async Task<List<Medication>> GetAllMedications()
     {
-        return _context.Medications.ToList();
+        return await _context.Medications.ToListAsync();
     }
 
     public async Task<Medication> FindMedication(int id)
