@@ -1,17 +1,18 @@
+using Microsoft.Extensions.DependencyInjection;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
 using PasientSimulator.lib.Services.Interfaces;
 
 namespace SimulationInterface;
-using Microsoft.Extensions.DependencyInjection;
 
-
-static class Program {
+internal static class Program
+{
     /// <summary>
-    ///  The main entry point for the application.
+    ///     The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main() {
+    private static void Main()
+    {
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
@@ -21,13 +22,14 @@ static class Program {
         services.AddScoped<IPatientService, PatientService>();
         services.AddScoped<ICaseService, CaseService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAdministerTreatment, AdministerTreatment>();
         services.AddTransient<CurrentCaseView>();
+        services.AddTransient<AdministerTreatmentView>();
 
         var provider = services.BuildServiceProvider();
 
         var mainForm = provider.GetRequiredService<CurrentCaseView>();
-       
+
         Application.Run(mainForm);
-        
     }
 }

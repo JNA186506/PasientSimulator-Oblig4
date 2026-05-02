@@ -2,11 +2,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PasientSimulator.lib.Models;
 
-public class Context : DbContext {
+public class Context : DbContext
+{
+    public Context()
+    {
+    }
 
-    public Context() { }
-
-    public Context(DbContextOptions<Context> options) : base(options) {}
+    public Context(DbContextOptions<Context> options) : base(options)
+    {
+    }
 
     public DbSet<Case> Cases { get; set; }
     public DbSet<Goal> Goals { get; set; }
@@ -15,13 +19,15 @@ public class Context : DbContext {
     public DbSet<Patient> Patients { get; set; }
     public DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        if (!optionsBuilder.IsConfigured) {
-            optionsBuilder.UseSqlServer("Server=tcp:dat154-rubylite.database.windows.net,1433;Initial Catalog=rubylite;Persist Security Info=False;User ID=rubyadmin;Password=johannes123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-        }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+            optionsBuilder.UseSqlServer(
+                "Server=tcp:dat154-rubylite.database.windows.net,1433;Initial Catalog=rubylite;Persist Security Info=False;User ID=rubyadmin;Password=johannes123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Case>()
@@ -63,7 +69,8 @@ public class Context : DbContext {
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Diagnoses)
             .WithMany()
-            .UsingEntity(j => {
+            .UsingEntity(j =>
+            {
                 j.ToTable("Diagnoses");
                 j.Property<int>("PatientId");
                 j.Property<int>("IllnessId");
@@ -73,7 +80,8 @@ public class Context : DbContext {
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.MedicalHistory)
             .WithMany()
-            .UsingEntity(j => {
+            .UsingEntity(j =>
+            {
                 j.ToTable("MedicalHistory");
                 j.Property<int>("PatientId");
                 j.Property<int>("IllnessId");
@@ -83,7 +91,8 @@ public class Context : DbContext {
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Medications)
             .WithMany()
-            .UsingEntity(j => {
+            .UsingEntity(j =>
+            {
                 j.ToTable("PatientMedications");
                 j.Property<int>("PatientId");
                 j.Property<int>("MedicationId");
@@ -93,7 +102,8 @@ public class Context : DbContext {
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Allergies)
             .WithMany()
-            .UsingEntity(j => {
+            .UsingEntity(j =>
+            {
                 j.ToTable("Allergies");
                 j.Property<int>("PatientId");
                 j.Property<int>("MedicationId");
@@ -129,7 +139,7 @@ public class Context : DbContext {
         modelBuilder.Entity<Goal>()
             .Property(g => g.GoalId)
             .ValueGeneratedOnAdd();
-        
+
         // Configure User entity
         modelBuilder.Entity<User>()
             .HasKey(u => u.UserId);

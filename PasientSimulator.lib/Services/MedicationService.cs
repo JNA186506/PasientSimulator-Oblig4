@@ -3,23 +3,28 @@ using PasientSimulator.lib.Services.Interfaces;
 
 namespace PasientSimulator.lib.Services;
 
-public class MedicationService : IMedicationService {
+public class MedicationService : IMedicationService
+{
     private readonly Context _context;
 
-    public MedicationService(Context context) {
+    public MedicationService(Context context)
+    {
         _context = context;
     }
 
-    public List<Medication> GetAllMedications() {
+    public List<Medication> GetAllMedications()
+    {
         return _context.Medications.ToList();
     }
 
-    public async Task<Medication> FindMedication(int id) {
+    public async Task<Medication> FindMedication(int id)
+    {
         return await _context.Medications.FindAsync(id);
     }
 
-    public Medication AddMedication(string name) {
-        Medication newMedication = new Medication { MedicationName = name };
+    public Medication AddMedication(string name)
+    {
+        var newMedication = new Medication { MedicationName = name };
 
         _context.Add(newMedication);
         _context.SaveChanges();
@@ -27,10 +32,10 @@ public class MedicationService : IMedicationService {
         return newMedication;
     }
 
-    public bool IsAntidote(Medication medication, Patient patient) {
-        List<Illness> patientDiagnoses = patient.Diagnoses;
+    public bool IsAntidote(Medication medication, Patient patient)
+    {
+        var patientDiagnoses = patient.Diagnoses;
 
         return patientDiagnoses.Any(m => m.AntidoteId == medication.MedicationId);
     }
-
 }

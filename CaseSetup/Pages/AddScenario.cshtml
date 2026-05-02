@@ -9,11 +9,11 @@
     <form method="post">
         <h2>Patient</h2>
         <label for="patientName">Name</label>
-        <input type="text" name="patientName" id="patientName" />
+        <input type="text" name="patientName" id="patientName"/>
         <label for="patientWeight">Weight</label>
-        <input type="number" name="patientWeight" id="patientWeight" />
+        <input type="number" name="patientWeight" id="patientWeight"/>
         <label for="patientAge">Age</label>
-        <input type="number" name="patientAge" id="patientAge" />
+        <input type="number" name="patientAge" id="patientAge"/>
         <label for="selectSex">Velg sex</label>
         <select name="selectSex" id="selectSex">
             <option value="1">Male</option>
@@ -28,24 +28,24 @@
             <option value="4">Dead</option>
         </select>
         <label for="heartrate">Heartrate</label>
-        <input type="number" name="heartrate" id="heartrate" />
+        <input type="number" name="heartrate" id="heartrate"/>
         <label for="bloodpressureSystolic">Blood Pressure</label>
-        <input type="number" name="bloodpressureSystolic" id="bloodpressureSystolic" />
+        <input type="number" name="bloodpressureSystolic" id="bloodpressureSystolic"/>
         <label for="bloodpressureDiastolic">Blood Pressure</label>
-        <input type="number" name="bloodpressureDiastolic" id="bloodpressureDiastolic" />
+        <input type="number" name="bloodpressureDiastolic" id="bloodpressureDiastolic"/>
         <label for="respiratoryRate">Respiratory rate</label>
-        <input type="number" name="respiratoryRate" id="respiratoryRate" />
+        <input type="number" name="respiratoryRate" id="respiratoryRate"/>
         <label for="temperature">Temperatur</label>
-        <input type="number" name="temperature" id="temperature" />
+        <input type="number" name="temperature" id="temperature"/>
         @foreach (var illness in Model.Diagnoses)
         {
             <label for="illness-@illness.IllnessId">@illness.IllnessName</label>
-            <input type="checkbox" id="illness-@illness.IllnessId" name="diagnoses" value="@illness.IllnessId" />
+            <input type="checkbox" id="illness-@illness.IllnessId" name="diagnoses" value="@illness.IllnessId"/>
         }
         @foreach (var allergy in Model.Allergies)
         {
             <label for="allergy-@allergy.MedicationId">@allergy.MedicationName</label>
-            <input type="checkbox" id="allergy-@allergy.MedicationId" name="allergies" value="@allergy.MedicationId" />
+            <input type="checkbox" id="allergy-@allergy.MedicationId" name="allergies" value="@allergy.MedicationId"/>
         }
 
         <h2>Case</h2>
@@ -59,8 +59,8 @@
         @foreach (var goal in Model.Goals)
         {
             <label for="goal-@goal.GoalId">@goal.Description</label>
-            <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId" />
+            <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId"/>
         }
-        <input type="submit" value="Add scenario" />
+        <input type="submit" value="Add scenario"/>
     </form>
 </div>

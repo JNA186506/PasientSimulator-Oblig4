@@ -2,7 +2,8 @@
 
 namespace PasientSimulator.lib.Services.Interfaces;
 
-public interface ICheckVitals {
+public interface ICheckVitals
+{
     int CheckHR(Patient patient);
     int CheckRespiratoryRate(Patient patient);
     double CheckOxygenSaturation(Patient patient);

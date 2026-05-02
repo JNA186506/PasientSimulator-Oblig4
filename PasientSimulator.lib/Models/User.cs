@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace PasientSimulator.lib.Models;
 
-namespace PasientSimulator.lib.Models;
-
-public class User { 
+public class User
+{
     public int UserId { get; set; }
     public int Role { get; set; }
     public string Name { get; set; }

@@ -2,7 +2,8 @@
 
 namespace PasientSimulator.lib.Services.Interfaces;
 
-public interface ICaseService {
+public interface ICaseService
+{
     Task<Case> AddNewCase(Patient casePatient, User student, List<Goal> goals);
 
     Task<List<Case>> GetAllCases();

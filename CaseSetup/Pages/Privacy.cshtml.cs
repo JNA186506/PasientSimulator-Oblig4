@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CaseSetup.Pages
+namespace CaseSetup.Pages;
+
+public class PrivacyModel : PageModel
 {
-    public class PrivacyModel : PageModel
+    public void OnGet()
     {
-        public void OnGet()
-        {
-        }
     }
-
 }

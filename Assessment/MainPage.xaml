@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Assessment.MainPage">
@@ -7,20 +8,20 @@
             <ColumnDefinition Width="300" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <StackLayout Grid.Column="0" HorizontalOptions="Center">
-            <Label Text="Filter cases" FontSize="24" FontAttributes="Bold"/>
-            <RadioButton Content="Active Cases" GroupName="FilterCases" IsChecked="True"/> 
-            <RadioButton Content="Inactive Cases" GroupName="FilterCases" /> 
-            <RadioButton Content="All Cases" GroupName="FilterCases" /> 
+            <Label Text="Filter cases" FontSize="24" FontAttributes="Bold" />
+            <RadioButton Content="Active Cases" GroupName="FilterCases" IsChecked="True" />
+            <RadioButton Content="Inactive Cases" GroupName="FilterCases" />
+            <RadioButton Content="All Cases" GroupName="FilterCases" />
         </StackLayout>
         <Grid Column="1">
             <CollectionView x:Name="CaseView">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border StrokeThickness="1" 
+                        <Border StrokeThickness="1"
                                 BackgroundColor="AliceBlue"
-                                StrokeShape="RoundRectangle, 30" 
+                                StrokeShape="RoundRectangle, 30"
                                 Padding="15"
                                 Margin="20">
                             <Grid Padding="10">
@@ -36,27 +37,28 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="50" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" >
+                                <Label Grid.Row="0" Grid.Column="0">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="CASE #" FontSize="24" FontAttributes="Bold"  /> 
-                                            <Span Text="{Binding CaseId }" FontSize="24" FontAttributes="Bold"/>
+                                            <Span Text="CASE #" FontSize="24" FontAttributes="Bold" />
+                                            <Span Text="{Binding CaseId }" FontSize="24" FontAttributes="Bold" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="1" Grid.Column="0" >
-                                   <Label.FormattedText>
-                                       <FormattedString>
-                                           <Span Text="Patient: " FontSize="16" /> 
-                                           <Span Text="{Binding CasePatient.PatientName}" FontSize="16" FontAttributes="Bold"/>
-                                       </FormattedString>
-                                   </Label.FormattedText>
+                                <Label Grid.Row="1" Grid.Column="0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Patient: " FontSize="16" />
+                                            <Span Text="{Binding CasePatient.PatientName}" FontSize="16"
+                                                  FontAttributes="Bold" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
                                 </Label>
                                 <Label Grid.Row="1" Grid.Column="1">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Student: " FontSize="16" />
-                                            <Span Text="{Binding Student.Name }" FontSize="16" FontAttributes="Bold"/>
+                                            <Span Text="{Binding Student.Name }" FontSize="16" FontAttributes="Bold" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -64,7 +66,8 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Patient status: " FontSize="16" />
-                                            <Span Text="{Binding CasePatient.Status }" FontSize="16" FontAttributes="Bold"/>
+                                            <Span Text="{Binding CasePatient.Status }" FontSize="16"
+                                                  FontAttributes="Bold" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -72,23 +75,23 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Current Temperature: " FontSize="16" />
-                                            <Span Text="{Binding CasePatient.Temperature }" FontSize="16" FontAttributes="Bold"/>
+                                            <Span Text="{Binding CasePatient.Temperature }" FontSize="16"
+                                                  FontAttributes="Bold" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Button Grid.Row="5" Grid.Column="1" 
+                                <Button Grid.Row="5" Grid.Column="1"
                                         Text="View Case"
                                         MaximumWidthRequest="100"
-                                        HorizontalOptions="Start"/>
+                                        HorizontalOptions="Start" />
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
-        
-        
-        
+
+
     </Grid>
 
 </ContentPage>

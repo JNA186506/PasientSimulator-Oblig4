@@ -81,15 +81,19 @@ private void InitializeComponent()
     listBoxAllergies = new ListBox { Location = new Point(10, 25), Size = new Size(225, 135) };
     groupAllergies.Controls.Add(listBoxAllergies);
 
+    administerTreatmentButton = new Button { Location = new Point(760, 485), Size = new Size(100, 50) };
+    administerTreatmentButton.Text = "Administer Treatment";
+
     Controls.AddRange(new Control[] {
         labelCaseNo, labelPatientName,
         groupDemographics, groupVitals,
         groupDiagnoses, groupMedHistory,
-        groupMedications, groupAllergies
+        groupMedications, groupAllergies,
+        administerTreatmentButton
     });
 
     Text = "Simulation";
-    ClientSize = new Size(900, 520);
+    ClientSize = new Size(1000, 620);
     Font = new Font("Segoe UI", 10F);
 }
 
@@ -97,5 +101,7 @@ private Label labelCaseNo, labelPatientName;
 private Label labelAge, labelSex, labelWeight, labelStatus;
 private Label labelHeartrate, labelBP, labelRespRate, labelOxygen, labelTemperature;
 private ListBox listBoxDiagnoses, listBoxMedHistory, listBoxMedications, listBoxAllergies;
+private Button administerTreatmentButton;
+
 #endregion
 }

@@ -2,7 +2,8 @@
 
 namespace PasientSimulator.lib.Services.Interfaces;
 
-public interface IPatientService {
+public interface IPatientService
+{
     Task<List<Patient>> GetAllPatients();
     Task<Patient> AddNewPatient(Patient patient);
     Task<bool> AddIllness(Illness illness, Patient patient);
