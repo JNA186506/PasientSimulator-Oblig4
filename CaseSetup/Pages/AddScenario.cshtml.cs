@@ -91,7 +91,6 @@ public class AddScenarioModel : PageModel
                 // PatientDiagnoses.Add(await PatientService.FindIllness(num));
             }
 
-        Console.WriteLine(DiagnosesStr);
         var AllergiesStr = Request.Form["allergies"].ToString().Split(',').ToList();
         foreach (var s in AllergiesStr)
             if (int.TryParse(s, out var num))
@@ -110,7 +109,7 @@ public class AddScenarioModel : PageModel
 
         if (new object?[]
             {
-                patientName, patientWeight, patientAge, patientSex, selectStatus, parsedHeartrate,
+                patientName, patientWeight, patientAge, patientSex, selectStatus, parsedHeartrate, bloodPressure,
                 parsedRespiratoryRate, parsedTemperature, patientDiagnoses, patientAllergies, Student, CaseGoals
             }.Any(x => x is null)) return Page();
         var patient = new Patient
