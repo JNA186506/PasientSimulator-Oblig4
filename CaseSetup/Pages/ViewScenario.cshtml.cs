@@ -17,9 +17,9 @@ public class ViewScenarioModel : PageModel
         _caseService = caseService;
         _patientService = patientService;
     }
-    public async Task OnGet(int scenarioId)
+    public async Task OnGet(int idInt)
     {
-        _case = await _caseService.GetCaseById(scenarioId);
+        _case = await _caseService.GetCaseById(idInt);
         _patient = _case.CasePatient;
     }
 }

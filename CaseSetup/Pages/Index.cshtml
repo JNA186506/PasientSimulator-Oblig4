@@ -18,7 +18,7 @@
                 <p>goal.Description</p>
             }
             <form method="post">
-                <input type="hidden" value="@scenario.CaseId"/>
+                <input type="hidden" name="scenarioId" id="scenarioId" value="@scenario.CaseId"/>
                 <button type="submit" asp-page-handler="SendToChangeScenario">Change scenario</button>
                 <button type="submit" asp-page-handler="SendToViewScenario">View scenario</button>
             </form>
