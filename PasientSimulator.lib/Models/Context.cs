@@ -22,14 +22,23 @@ public class Context : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseSqlServer(
-                "Server=tcp:dat154-rubylite.database.windows.net,1433;Initial Catalog=rubylite;Persist Security Info=False;User ID=rubyadmin;Password=johannes123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            optionsBuilder.UseNpgsql(
+                "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            entity.SetTableName(entity.GetTableName()!.ToLower());
+            foreach (var property in entity.GetProperties())
+                property.SetColumnName(property.GetColumnName().ToLower());
+            foreach (var key in entity.GetKeys())
+                key.SetName(key.GetName()!.ToLower());
+            foreach (var fk in entity.GetForeignKeys())
+                fk.SetConstraintName(fk.GetConstraintName()!.ToLower());
+        }
         modelBuilder.Entity<Case>()
             .HasKey(c => c.CaseId);
 
@@ -64,7 +73,11 @@ public class Context : DbContext
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Patient>()
-            .OwnsOne(p => p.BloodPressure);
+            .OwnsOne(p => p.BloodPressure, bp =>
+            {
+                bp.Property(b => b.Systolic).HasColumnName("bloodpressure_systolic");
+                bp.Property(b => b.Diastolic).HasColumnName("bloodpressure_diastolic");
+            });
 
         modelBuilder.Entity<Patient>()
             .HasMany(p => p.Diagnoses)

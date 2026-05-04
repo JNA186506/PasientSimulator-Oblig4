@@ -1,101 +1,101 @@
-DROP TABLE IF EXISTS CaseGoals;
-DROP TABLE IF EXISTS Goals;
-DROP TABLE IF EXISTS Cases;
-DROP TABLE IF EXISTS Allergies;
-DROP TABLE IF EXISTS PatientMedications;
-DROP TABLE IF EXISTS Diagnoses;
-DROP TABLE IF EXISTS MedicalHistory;
-DROP TABLE IF EXISTS Patients;
-DROP TABLE IF EXISTS IllnessTreatments;
-DROP TABLE IF EXISTS Illnesses;
-DROP TABLE IF EXISTS Medications;
+DROP TABLE IF EXISTS casegoals;
+DROP TABLE IF EXISTS goals;
+DROP TABLE IF EXISTS cases;
+DROP TABLE IF EXISTS allergies;
+DROP TABLE IF EXISTS patientmedications;
+DROP TABLE IF EXISTS diagnoses;
+DROP TABLE IF EXISTS medicalhistory;
+DROP TABLE IF EXISTS patients;
+DROP TABLE IF EXISTS illnesstreatments;
+DROP TABLE IF EXISTS illnesses;
+DROP TABLE IF EXISTS medications;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
 (
-    UserId Integer IDENTITY (1,1) PRIMARY KEY,
-    Role   INTEGER NOT NULL,
-    Name   TEXT
-)
+    userid SERIAL PRIMARY KEY,
+    role   INTEGER NOT NULL,
+    name   TEXT
+);
 
-CREATE TABLE Medications
+CREATE TABLE medications
 (
-    MedicationId        Integer IDENTITY (1,1) PRIMARY KEY,
-    MedicationName      VARCHAR(255),
-    Dosage              Integer,
-    AdministrationRoute INT
-)
+    medicationid        SERIAL PRIMARY KEY,
+    medicationname      VARCHAR(255),
+    dosage              INTEGER,
+    administrationroute INT
+);
 
-CREATE TABLE Illnesses
+CREATE TABLE illnesses
 (
-    IllnessId   Integer IDENTITY (1,1) PRIMARY KEY,
-    IllnessName VARCHAR(255),
-    AntidoteId  Integer REFERENCES Medications (MedicationId)
-)
+    illnessid   SERIAL PRIMARY KEY,
+    illnessname VARCHAR(255),
+    antidoteid  INTEGER REFERENCES medications (medicationid)
+);
 
-CREATE TABLE Patients
+CREATE TABLE patients
 (
-    PatientId               Integer IDENTITY (1,1) PRIMARY KEY,
-    Status                  Integer,
-    PatientName             TEXT,
-    Weight                  Integer,
-    Age                     Integer,
-    Sex                     INT,
-    Heartrate               Integer,
-    BloodPressure_Systolic  Integer,
-    BloodPressure_Diastolic Integer,
-    RespiratoryRate         Integer,
-    OxygenSaturation        FLOAT,
-    Temperature             FLOAT
-)
+    patientid               SERIAL PRIMARY KEY,
+    status                  INTEGER,
+    patientname             TEXT,
+    weight                  INTEGER,
+    age                     INTEGER,
+    sex                     INT,
+    heartrate               INTEGER,
+    bloodpressure_systolic  INTEGER,
+    bloodpressure_diastolic INTEGER,
+    respiratoryrate         INTEGER,
+    oxygensaturation        FLOAT,
+    temperature             FLOAT
+);
 
-CREATE TABLE MedicalHistory
+CREATE TABLE medicalhistory
 (
-    PatientId Integer NOT NULL REFERENCES Patients (PatientId),
-    IllnessId Integer NOT NULL REFERENCES Illnesses (IllnessId),
-    PRIMARY KEY (PatientId, IllnessId)
-)
+    patientid INTEGER NOT NULL REFERENCES patients (patientid),
+    illnessid INTEGER NOT NULL REFERENCES illnesses (illnessid),
+    PRIMARY KEY (patientid, illnessid)
+);
 
-CREATE TABLE Diagnoses
+CREATE TABLE diagnoses
 (
-    PatientId Integer NOT NULL REFERENCES Patients (PatientId),
-    IllnessId Integer NOT NULL REFERENCES Illnesses (IllnessId),
-    PRIMARY KEY (PatientId, IllnessId)
-)
+    patientid INTEGER NOT NULL REFERENCES patients (patientid),
+    illnessid INTEGER NOT NULL REFERENCES illnesses (illnessid),
+    PRIMARY KEY (patientid, illnessid)
+);
 
-CREATE TABLE PatientMedications
+CREATE TABLE patientmedications
 (
-    PatientId    Integer NOT NULL REFERENCES Patients (PatientId),
-    MedicationId Integer NOT NULL REFERENCES Medications (MedicationId),
-    PRIMARY KEY (PatientId, MedicationId)
-)
+    patientid    INTEGER NOT NULL REFERENCES patients (patientid),
+    medicationid INTEGER NOT NULL REFERENCES medications (medicationid),
+    PRIMARY KEY (patientid, medicationid)
+);
 
-CREATE TABLE Allergies
+CREATE TABLE allergies
 (
-    PatientId    Integer NOT NULL REFERENCES Patients (PatientId),
-    MedicationId Integer NOT NULL REFERENCES Medications (MedicationId),
-    PRIMARY KEY (PatientId, MedicationId)
-)
+    patientid    INTEGER NOT NULL REFERENCES patients (patientid),
+    medicationid INTEGER NOT NULL REFERENCES medications (medicationid),
+    PRIMARY KEY (patientid, medicationid)
+);
 
-CREATE TABLE Cases
+CREATE TABLE cases
 (
-    CaseId    Integer IDENTITY (1,1) PRIMARY KEY,
-    PatientId Integer NOT NULL REFERENCES Patients (PatientId),
-    UserId    Integer NOT NULL REFERENCES Users (UserId)
-)
+    caseid    SERIAL PRIMARY KEY,
+    patientid INTEGER NOT NULL REFERENCES patients (patientid),
+    userid    INTEGER NOT NULL REFERENCES users (userid)
+);
 
-CREATE TABLE Goals
+CREATE TABLE goals
 (
-    GoalId      Integer IDENTITY (1,1) PRIMARY KEY,
-    GoalName    VARCHAR(255),
-    TimeLimit   Integer,
-    Description TEXT,
-    CaseId      Integer REFERENCES Cases (CaseId)
-)
+    goalid      SERIAL PRIMARY KEY,
+    goalname    VARCHAR(255),
+    timelimit   INTEGER,
+    description TEXT,
+    caseid      INTEGER REFERENCES cases
+);
 
-CREATE TABLE CaseGoals
+CREATE TABLE casegoals
 (
-    CaseId Integer REFERENCES Cases (CaseId),
-    GoalId Integer REFERENCES Goals (GoalId),
-    PRIMARY KEY (CaseId, GoalId)
-)
+    caseid INTEGER REFERENCES cases,
+    goalid INTEGER REFERENCES goals,
+    PRIMARY KEY (caseid, goalid)
+);

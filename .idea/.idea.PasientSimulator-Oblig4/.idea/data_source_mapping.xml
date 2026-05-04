@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/PasientSimulator.lib/DbConfig.sql" value="2f3eb259-35ac-431b-80e1-4948fd7f0ab0" />
+    <file url="file://$PROJECT_DIR$/PasientSimulator.lib/DbConfig.sql" value="abfc07c2-7935-411b-a168-ce8b0c69f36a" />
+    <file url="file://$PROJECT_DIR$/PasientSimulator.lib/DummyData.sql" value="abfc07c2-7935-411b-a168-ce8b0c69f36a" />
   </component>
 </project>
