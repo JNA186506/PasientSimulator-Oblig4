@@ -121,6 +121,9 @@ public class AddScenarioModel : PageModel
             Sex = (Patient.SexEnum)patientSex,
             Status = (Patient.StatusEnum)selectStatus,
             Heartrate = parsedHeartrate,
+            RespiratoryRate = respiratoryRate,
+            Temperature = temperature,
+            OxygenSaturation = 96.5,
             Allergies = patientAllergies,
             Diagnoses = patientDiagnoses,
             BloodPressure = bloodPressure

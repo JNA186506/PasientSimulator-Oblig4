@@ -84,10 +84,10 @@ public class Context : DbContext
             .WithMany()
             .UsingEntity(j =>
             {
-                j.ToTable("Diagnoses");
-                j.Property<int>("PatientId");
-                j.Property<int>("IllnessId");
-                j.HasKey("PatientId", "IllnessId");
+                j.ToTable("diagnoses");
+                j.Property<int>("patientid");
+                j.Property<int>("illnessid");
+                j.HasKey("patientid", "illnessid");
             });
 
         modelBuilder.Entity<Patient>()
@@ -95,10 +95,10 @@ public class Context : DbContext
             .WithMany()
             .UsingEntity(j =>
             {
-                j.ToTable("MedicalHistory");
-                j.Property<int>("PatientId");
-                j.Property<int>("IllnessId");
-                j.HasKey("PatientId", "IllnessId");
+                j.ToTable("medicalhistory");
+                j.Property<int>("patientid");
+                j.Property<int>("illnessid");
+                j.HasKey("patientid", "illnessid");
             });
 
         modelBuilder.Entity<Patient>()
@@ -106,10 +106,10 @@ public class Context : DbContext
             .WithMany()
             .UsingEntity(j =>
             {
-                j.ToTable("PatientMedications");
-                j.Property<int>("PatientId");
-                j.Property<int>("MedicationId");
-                j.HasKey("PatientId", "MedicationId");
+                j.ToTable("patientmedications");
+                j.Property<int>("patientid");
+                j.Property<int>("medicationid");
+                j.HasKey("patientid", "medicationid");
             });
 
         modelBuilder.Entity<Patient>()
@@ -117,10 +117,10 @@ public class Context : DbContext
             .WithMany()
             .UsingEntity(j =>
             {
-                j.ToTable("Allergies");
-                j.Property<int>("PatientId");
-                j.Property<int>("MedicationId");
-                j.HasKey("PatientId", "MedicationId");
+                j.ToTable("allergies");
+                j.Property<int>("patientid");
+                j.Property<int>("medicationid");
+                j.HasKey("patientid", "medicationid");
             });
 
         // Configure Illness entity
