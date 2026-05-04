@@ -1,0 +1,33 @@
+﻿@page
+@model CaseSetup.Pages.ChangeScenarioModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">ChangeScenario</h1>
+    <h2>Existing case</h2>
+    <ul>
+        <li>Student: @Model._case.Student.Name</li>
+        @foreach (var goal in Model._case.Goals)
+        {
+            <li>Goal: @goal.Description</li>
+        }
+    </ul>
+    <h2>Update values</h2>
+    <form method="post">
+        <label for="selectStudent">Select student</label>
+        <select name="selectStudent" id="selectStudent">
+            @foreach (var student in Model.Students)
+            {
+                <option value="@student.UserId">@student.Name</option>
+            }
+        </select>
+        @foreach (var goal in Model.Goals)
+        {
+            <label for="goal-@goal.GoalId">@goal.Description</label>
+            <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId" />
+        }
+        <input type="submit" value="Update Scenario">
+    </form>
+</div>
