@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
@@ -25,5 +26,13 @@ public class IndexModel : PageModel
     public async Task OnGetAsync()
     {
         Cases = await _caseService.GetAllCases();
+    }
+    public IActionResult OnPostSendToViewScenario(int scenarioId)
+    {
+        return RedirectToPage("/ViewScenario", new { scenarioId = scenarioId });
+    }
+    public IActionResult OnPostSendToChangeScenario(int scenarioId)
+    {
+        return RedirectToPage("/ChangeScenario", new { scenarioId = scenarioId });
     }
 }
