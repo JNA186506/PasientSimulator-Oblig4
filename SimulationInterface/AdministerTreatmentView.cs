@@ -13,7 +13,10 @@ public partial class AdministerTreatmentView : Form
 
     public string? SelectedTreatment { get; private set; }
 
-    public AdministerTreatmentView(Patient patient, IAdministerTreatment treatmentService, List<Medication> medications)
+    public AdministerTreatmentView(
+        Patient patient, 
+        IAdministerTreatment treatmentService, 
+        List<Medication> medications)
     {
         _patient = patient;
         _treatmentService = treatmentService;
@@ -50,7 +53,7 @@ public partial class AdministerTreatmentView : Form
     {
         var (msg, title, icon) = success
             ? ($"{description} administered.", "Treatment Applied", MessageBoxIcon.Information)
-            : ($"{description} could not be applied.", "Treatment Failed", MessageBoxIcon.Warning);
+            : ($"Tried to administer {description}.", "Treatment Failed", MessageBoxIcon.Warning);
 
         MessageBox.Show(msg, title, MessageBoxButtons.OK, icon);
         DialogResult = success ? DialogResult.OK : DialogResult.Abort;

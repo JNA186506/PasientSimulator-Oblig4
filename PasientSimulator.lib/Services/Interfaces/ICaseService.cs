@@ -13,5 +13,7 @@ public interface ICaseService
     Task<Goal> MakeGoal(int currCaseId, string goalName, int timeLimit, string description);
     Task<List<Goal>> GetAllGoals();
     Task<Goal> FindGoal(int id);
+    Task<Event> AddEvent(Event newEvent);
+    Task<List<Event>> GetEventsById(int caseId);
     Task<Case?> GetCaseByIdAsync(int id);
 }

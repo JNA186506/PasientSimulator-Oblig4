@@ -42,3 +42,6 @@ VALUES ('Cheeeeeeesey!', 15, 'Get this man some cheese!');
 
 INSERT INTO casegoals (caseid, goalid)
 VALUES (1, 1);
+
+INSERT INTO event (caseid, eventtype, description, timeadded, userid) 
+VALUES ( 1, 1, 'This was a good intervention', now(), 1);

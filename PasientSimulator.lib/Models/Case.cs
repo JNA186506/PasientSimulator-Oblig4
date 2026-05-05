@@ -16,4 +16,6 @@ public class Case
     public User Student { get; set; }
 
     public List<Goal> Goals { get; set; }
+    
+    public List<Event> Events { get; set; }
 }

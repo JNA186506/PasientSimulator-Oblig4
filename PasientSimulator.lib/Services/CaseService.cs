@@ -89,6 +89,22 @@ public class CaseService : ICaseService
         return await _context.Goals.FindAsync(id);
     }
 
+    public async Task<Event> AddEvent(Event newEvent)
+    {
+        _context.Add(newEvent);
+
+        await _context.SaveChangesAsync();
+
+        return newEvent;
+    }
+
+    public async Task<List<Event>> GetEventsById(int caseId)
+    {
+        return await _context.Events
+            .Where(e => e.CaseId == caseId)
+            .ToListAsync();
+    }
+
     public Task<Case?> GetCaseByIdAsync(int id)
     {
         return _context.Cases.FirstOrDefaultAsync(c => c.CaseId == id);

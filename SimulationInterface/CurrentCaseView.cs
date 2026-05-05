@@ -20,7 +20,7 @@ public partial class CurrentCaseView : Form
         _treatmentService = treatmentService;
 
         InitializeComponent();
-
+        
         Load += CurrentCaseView_Load;
         administerTreatmentButton.Click += AdministerTreatmentButton_OnClicked;
     }
@@ -39,6 +39,7 @@ public partial class CurrentCaseView : Form
     private async void CurrentCaseView_Load(object sender, EventArgs e)
     {
         _currCase = await _caseService.GetCaseById(1);
+        await LoadEventLog();
 
         if (_currCase == null)
         {
@@ -79,6 +80,22 @@ public partial class CurrentCaseView : Form
         listBoxAllergies.DataSource = p.Allergies?.Select(a => a.MedicationName).ToList();
     }
 
+    private async Task LoadEventLog()
+    {
+        var events = await _caseService.GetEventsById(_currCase.CaseId);
+
+        listViewEvents.Items.Clear();
+
+        foreach (var ev in events.OrderByDescending(ev => ev.Timeadded))
+        {
+            var item = new ListViewItem(ev.Timeadded.ToLocalTime().ToString("HH:mm:ss"));
+            item.SubItems.Add(ev.EventType == EventEnum.Comment ? "Comment" : "Intervention");
+            item.SubItems.Add(ev.Description ?? "");
+            item.ForeColor = ev.EventType == EventEnum.Comment ? Color.SteelBlue : Color.Black;
+            listViewEvents.Items.Add(item);
+        }
+    }
+
     private async void AdministerTreatmentButton_OnClicked(object? sender, EventArgs e)
     {
         Patient? currentPatient = _currCase.CasePatient;
@@ -93,8 +110,19 @@ public partial class CurrentCaseView : Form
             MessageBox.Show("Patient data is not loaded yet.");
             return;
         }
-        using var treatmentView = new AdministerTreatmentView(currentPatient, _treatmentService, allMedications);
+
+        using var treatmentView =
+            new AdministerTreatmentView(currentPatient, _treatmentService, allMedications);
         var result = treatmentView.ShowDialog(this);
+        
+        await _caseService.AddEvent(new Event
+        {
+            CaseId = _currCase.CaseId,
+            UserId = _currCase.UserId,
+            EventType = EventEnum.MedicalIntervention,
+            Description = $"Administered {treatmentView.SelectedTreatment}"
+        });
+        await LoadEventLog();
         RefreshView(currentPatient);
         
     }

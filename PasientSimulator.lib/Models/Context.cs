@@ -18,6 +18,7 @@ public class Context : DbContext
     public DbSet<Medication> Medications { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Event> Events { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -64,6 +65,11 @@ public class Context : DbContext
             .HasForeignKey(g => g.CaseId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Case>()
+            .HasMany(c => c.Events)
+            .WithOne()
+            .HasForeignKey(e => e.CaseId);
+        
         // Configure Patient entity
         modelBuilder.Entity<Patient>()
             .HasKey(p => p.PatientId);
@@ -160,5 +166,7 @@ public class Context : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.UserId)
             .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Event>().ToTable("event");
     }
 }
