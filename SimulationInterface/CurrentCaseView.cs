@@ -25,6 +25,17 @@ public partial class CurrentCaseView : Form
         administerTreatmentButton.Click += AdministerTreatmentButton_OnClicked;
     }
 
+    private void RefreshView(Patient p)
+    {    
+        labelStatus.Text      = $"Status: {p.Status}";
+        labelHeartrate.Text   = $"Heart Rate: {p.Heartrate} bpm";
+        labelBP.Text          = $"Blood Pressure: {p.BloodPressure.Systolic}/{p.BloodPressure.Diastolic} mmHg";
+        labelOxygen.Text      = $"O₂ Saturation: {p.OxygenSaturation:F1}%";
+        labelTemperature.Text = $"Temperature: {p.Temperature:F1} °C";
+        listBoxMedications.DataSource = p.Medications?.Select(m => m.MedicationName).ToList();
+        
+    }
+
     private async void CurrentCaseView_Load(object sender, EventArgs e)
     {
         _currCase = await _caseService.GetCaseById(1);
@@ -84,5 +95,7 @@ public partial class CurrentCaseView : Form
         }
         using var treatmentView = new AdministerTreatmentView(currentPatient, _treatmentService, allMedications);
         var result = treatmentView.ShowDialog(this);
+        RefreshView(currentPatient);
+        
     }
 }
