@@ -15,12 +15,15 @@
             <h3>Goals</h3>
             @foreach (var goal in scenario.Goals)
             {
-                <p>goal.Description</p>
+                <p>@goal.Description</p>
             }
             <form method="post">
-                <input type="hidden" name="scenarioId" id="scenarioId" value="@scenario.CaseId"/>
-                <button type="submit" asp-page-handler="SendToChangeScenario">Change scenario</button>
+                <input type="hidden" name="scenarioId" id="view @scenario.CaseId" value="@scenario.CaseId"/>
                 <button type="submit" asp-page-handler="SendToViewScenario">View scenario</button>
+            </form>
+            <form method="post">
+                <input type="hidden" name="scenarioId" id="change @scenario.CaseId" value="@scenario.CaseId" />
+                <button type="submit" asp-page-handler="SendToChangeScenario">Change scenario</button>
             </form>
         </section>
     }

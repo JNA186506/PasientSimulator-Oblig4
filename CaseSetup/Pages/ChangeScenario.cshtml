@@ -9,25 +9,84 @@
     <h2>Existing case</h2>
     <ul>
         <li>Student: @Model._case.Student.Name</li>
-        @foreach (var goal in Model._case.Goals)
-        {
-            <li>Goal: @goal.Description</li>
-        }
+        <li>Patient: @Model._case.CasePatient.PatientName</li>
+        <li>
+            <fieldset>
+                <legend>Goals</legend>
+                @foreach (var goal in Model._case.Goals)
+                {
+                    @goal.Description
+                }
+            </fieldset>
+        </li>
     </ul>
-    <h2>Update values</h2>
+    <h2>Update case</h2>
     <form method="post">
         <label for="selectStudent">Select student</label>
         <select name="selectStudent" id="selectStudent">
             @foreach (var student in Model.Students)
             {
-                <option value="@student.UserId">@student.Name</option>
+                <option value="@student.UserId" selected="@(student.UserId == Model._case.Student.UserId)">@student.Name</option>
             }
-        </select>
-        @foreach (var goal in Model.Goals)
-        {
-            <label for="goal-@goal.GoalId">@goal.Description</label>
-            <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId" />
-        }
-        <input type="submit" value="Update Scenario">
+        </select><br />
+        <fieldset>
+            <legend>Goals</legend>
+            @foreach (var goal in Model.Goals)
+            {
+                <label for="goal-@goal.GoalId">@goal.Description</label>
+                <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId" @(Model._case.Goals.Any(g => g.GoalId == goal.GoalId) ? "checked" : "") />
+            }
+        </fieldset><br />
+        <button type="submit" asp-page-handler="UpdateCase">Update Scenario</button>
+    </form>
+    <h2>Update patient</h2>
+    <form method="post">
+        <label for="selectStatus">Velg status</label>
+        <select name="selectStatus" id="selectStatus">
+            <option value="1" selected="@(Model._case.CasePatient.Status == PasientSimulator.lib.Models.Patient.StatusEnum.Healthy)">Healthy</option>
+            <option value="2" selected="@(Model._case.CasePatient.Status == PasientSimulator.lib.Models.Patient.StatusEnum.Sick)">Sick</option>
+            <option value="3" selected="@(Model._case.CasePatient.Status == PasientSimulator.lib.Models.Patient.StatusEnum.Dead)">Dead</option>
+        </select><br />
+        <label for="patientName">Name</label>
+        <input type="text" name="patientName" id="patientName" value="@Model._case.CasePatient.PatientName"/><br />
+        <label for="patientWeight">Weight</label>
+        <input type="number" name="patientWeight" id="patientWeight" value="@Model._case.CasePatient.Weight"/><br />
+        <label for="patientAge">Age</label>
+        <input type="number" name="patientAge" id="patientAge" value="@Model._case.CasePatient.Age"/><br />
+        <label for="selectSex">Sex</label>
+        <select name="selectSex" id="selectSex">
+            <option value="1" selected="@(Model._case.CasePatient.Sex == PasientSimulator.lib.Models.Patient.SexEnum.Male)">Male</option>
+            <option value="2" selected="@(Model._case.CasePatient.Sex == PasientSimulator.lib.Models.Patient.SexEnum.Female)">Female</option>
+            <option value="3" selected="@(Model._case.CasePatient.Sex == PasientSimulator.lib.Models.Patient.SexEnum.Other)">Other</option>
+        </select><br />
+        <label for="heartrate">Heartrate</label>
+        <input type="number" name="heartrate" id="heartrate" value="@Model._case.CasePatient.Heartrate" /><br />
+        <label for="bloodpressureSystolic">Bloodpressure Systolic</label>
+        <input type="number" name="bloodpressureSystolic" id="bloodpressureSystolic" value="@Model._case.CasePatient.BloodPressure.Systolic" /><br />
+        <label for="bloodpressureDiastolic">Bloodpressure Diastolic</label>
+        <input type="number" name="bloodpressureDiastolic" id="bloodpressureDiastolic" value="@Model._case.CasePatient.BloodPressure.Diastolic" /><br />
+        <label for="respiratoryRate">Respiratory Rate</label>
+        <input type="number" name="respiratoryRate" id="respiratoryRate" value="@Model._case.CasePatient.RespiratoryRate" /><br />
+        <label for="oxygenSaturation">Oxygen Saturation</label>
+        <input type="number" name="oxygenSaturation" id="oxygenSaturation" value="@Model._case.CasePatient.OxygenSaturation" /><br />
+        <label for="temperature">Temperature</label>
+        <input type="number" name="temperature" id="temperature" value="@Model._case.CasePatient.Temperature" /><br />
+        <fieldset>
+            <legend>Diagnoses</legend>
+            @foreach (var illness in Model.Diagnoses)
+            {
+                <label for="illness-@illness.IllnessId">@illness.IllnessName</label>
+                <input type="checkbox" id="illness-@illness.IllnessId" name="diagnoses" value="@illness.IllnessId" @(Model._case.CasePatient.Diagnoses.Any(d => d.IllnessId == illness.IllnessId) ? "checked" : "") />
+            }
+        </fieldset><br />
+        <fieldset>
+            <legend>Allergies</legend>
+            @foreach (var allergy in Model.Allergies)
+            {
+                <label for="allergy-@allergy.MedicationId">@allergy.MedicationName</label>
+                <input type="checkbox" id="allergy-@allergy.MedicationId" name="allergies" value="@allergy.MedicationId" @(Model._case.CasePatient.Allergies.Any(a => a.MedicationId == allergy.MedicationId) ? "checked" : "") />
+            }
+        </fieldset><br />
+        <button type="submit" asp-page-handler="UpdatePatient">Update Scenario</button>
     </form>
 </div>

@@ -31,14 +31,15 @@ namespace CaseSetup.Pages
 
         [BindProperty] public List<Goal> CaseGoals { get; set; }
         [BindProperty] public Case _case { get; set; }
-        public async Task OnGetAsync(int scenarioId)
+        public async Task OnGetAsync(int idInt)
         {
             Allergies = await PatientService.GetAllAllergies();
             Diagnoses = await PatientService.GetAllDiagnoses();
             Students = await UserService.GetAllStudents();
             Goals = await CaseService.GetAllGoals();
 
-            _case = await CaseService.GetCaseById(scenarioId);
+            _case = await CaseService.GetCaseById(idInt);
         }
+
     }
 }
