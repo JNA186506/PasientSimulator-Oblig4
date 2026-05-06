@@ -29,17 +29,23 @@ partial class CurrentCaseView {
     /// </summary>
 private void InitializeComponent()
 {
-    labelCaseNo = new Label { 
+    menuStrip = new MenuStrip();
+    var casesMenu = new ToolStripMenuItem("Cases");
+    menuItemActiveCases = new ToolStripMenuItem("My Active Cases");
+    casesMenu.DropDownItems.Add(menuItemActiveCases);
+    menuStrip.Items.Add(casesMenu);
+
+    labelCaseNo = new Label {
         Text = "CASE #", Font = new Font("Segoe UI", 16F, FontStyle.Bold),
-        Location = new Point(20, 20), Size = new Size(300, 40) 
+        Location = new Point(20, 50), Size = new Size(300, 40)
     };
-    labelPatientName = new Label { 
+    labelPatientName = new Label {
         Text = "Patient Name", Font = new Font("Segoe UI", 13F),
-        Location = new Point(20, 65), Size = new Size(300, 30) 
+        Location = new Point(20, 95), Size = new Size(300, 30)
     };
 
     var groupDemographics = new GroupBox {
-        Text = "Demographics", Location = new Point(20, 110), Size = new Size(300, 160)
+        Text = "Demographics", Location = new Point(20, 140), Size = new Size(300, 160)
     };
     labelAge    = new Label { Location = new Point(10, 30),  Size = new Size(270, 25) };
     labelSex    = new Label { Location = new Point(10, 60),  Size = new Size(270, 25) };
@@ -48,7 +54,7 @@ private void InitializeComponent()
     groupDemographics.Controls.AddRange(new Control[] { labelAge, labelSex, labelWeight, labelStatus });
 
     var groupVitals = new GroupBox {
-        Text = "Vitals", Location = new Point(20, 290), Size = new Size(300, 175)
+        Text = "Vitals", Location = new Point(20, 320), Size = new Size(300, 175)
     };
     labelHeartrate   = new Label { Location = new Point(10, 30),  Size = new Size(270, 25) };
     labelBP          = new Label { Location = new Point(10, 60),  Size = new Size(270, 25) };
@@ -58,40 +64,40 @@ private void InitializeComponent()
     groupVitals.Controls.AddRange(new Control[] { labelHeartrate, labelBP, labelRespRate, labelOxygen, labelTemperature });
 
     var groupDiagnoses = new GroupBox {
-        Text = "Diagnoses", Location = new Point(340, 110), Size = new Size(250, 175)
+        Text = "Diagnoses", Location = new Point(340, 140), Size = new Size(250, 175)
     };
     listBoxDiagnoses = new ListBox { Location = new Point(10, 25), Size = new Size(225, 135) };
     groupDiagnoses.Controls.Add(listBoxDiagnoses);
 
     var groupMedHistory = new GroupBox {
-        Text = "Medical History", Location = new Point(340, 300), Size = new Size(250, 175)
+        Text = "Medical History", Location = new Point(340, 330), Size = new Size(250, 175)
     };
     listBoxMedHistory = new ListBox { Location = new Point(10, 25), Size = new Size(225, 135) };
     groupMedHistory.Controls.Add(listBoxMedHistory);
 
     var groupMedications = new GroupBox {
-        Text = "Medications", Location = new Point(610, 110), Size = new Size(250, 175)
+        Text = "Medications", Location = new Point(610, 140), Size = new Size(250, 175)
     };
     listBoxMedications = new ListBox { Location = new Point(10, 25), Size = new Size(225, 135) };
     groupMedications.Controls.Add(listBoxMedications);
 
     var groupAllergies = new GroupBox {
-        Text = "Allergies", Location = new Point(610, 300), Size = new Size(250, 175)
+        Text = "Allergies", Location = new Point(610, 330), Size = new Size(250, 175)
     };
     listBoxAllergies = new ListBox { Location = new Point(10, 25), Size = new Size(225, 135) };
     groupAllergies.Controls.Add(listBoxAllergies);
 
-    administerTreatmentButton = new Button { Location = new Point(760, 485), Size = new Size(100, 50) };
+    administerTreatmentButton = new Button { Location = new Point(760, 515), Size = new Size(100, 50) };
     administerTreatmentButton.Text = "Administer Treatment";
 
     var groupEventLog = new GroupBox
     {
-        Text = "Event log", Location = new Point(880, 20), Size = new Size(380, 560)
+        Text = "Event log", Location = new Point(880, 50), Size = new Size(380, 530)
     };
     listViewEvents = new ListView
     {
         Location = new Point(10, 25),
-        Size = new Size(355, 520),
+        Size = new Size(355, 490),
         View = View.Details,
         FullRowSelect = true,
         GridLines = true
@@ -99,10 +105,11 @@ private void InitializeComponent()
     listViewEvents.Columns.Add("Time", 75);
     listViewEvents.Columns.Add("Type", 110);
     listViewEvents.Columns.Add("Description", -2);
-    
+
     groupEventLog.Controls.Add(listViewEvents);
 
     Controls.AddRange(new Control[] {
+        menuStrip,
         labelCaseNo, labelPatientName,
         groupDemographics, groupVitals,
         groupDiagnoses, groupMedHistory,
@@ -111,11 +118,14 @@ private void InitializeComponent()
         administerTreatmentButton
     });
 
+    MainMenuStrip = menuStrip;
     Text = "Simulation";
-    ClientSize = new Size(1290, 620);
+    ClientSize = new Size(1290, 650);
     Font = new Font("Segoe UI", 10F);
 }
 
+private MenuStrip menuStrip;
+private ToolStripMenuItem menuItemActiveCases;
 private Label labelCaseNo, labelPatientName;
 private Label labelAge, labelSex, labelWeight, labelStatus;
 private Label labelHeartrate, labelBP, labelRespRate, labelOxygen, labelTemperature;

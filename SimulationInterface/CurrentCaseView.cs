@@ -20,26 +20,30 @@ public partial class CurrentCaseView : Form
         _treatmentService = treatmentService;
 
         InitializeComponent();
-        
+
         Load += CurrentCaseView_Load;
         administerTreatmentButton.Click += AdministerTreatmentButton_OnClicked;
+        menuItemActiveCases.Click += OnActiveCasesClicked;
     }
 
     private void RefreshView(Patient p)
-    {    
+    {
         labelStatus.Text      = $"Status: {p.Status}";
         labelHeartrate.Text   = $"Heart Rate: {p.Heartrate} bpm";
         labelBP.Text          = $"Blood Pressure: {p.BloodPressure.Systolic}/{p.BloodPressure.Diastolic} mmHg";
         labelOxygen.Text      = $"O₂ Saturation: {p.OxygenSaturation:F1}%";
         labelTemperature.Text = $"Temperature: {p.Temperature:F1} °C";
         listBoxMedications.DataSource = p.Medications?.Select(m => m.MedicationName).ToList();
-        
     }
 
     private async void CurrentCaseView_Load(object sender, EventArgs e)
     {
-        _currCase = await _caseService.GetCaseById(1);
-        await LoadEventLog();
+        await LoadCase(1);
+    }
+
+    private async Task LoadCase(int caseId)
+    {
+        _currCase = await _caseService.GetCaseById(caseId);
 
         if (_currCase == null)
         {
@@ -54,30 +58,31 @@ public partial class CurrentCaseView : Form
             return;
         }
 
-        // Header
-        labelCaseNo.Text = $"CASE #{_currCase.CaseId}";
+        labelCaseNo.Text      = $"CASE #{_currCase.CaseId}";
         labelPatientName.Text = p.PatientName;
-
-        // Demographics
-        labelAge.Text = $"Age: {p.Age}";
-        labelSex.Text = $"Sex: {p.Sex}";
-        labelWeight.Text = $"Weight: {p.Weight} kg";
-        labelStatus.Text = $"Status: {p.Status}";
-
-        // Vitals
-        labelHeartrate.Text = $"Heart Rate: {p.Heartrate} bpm";
-        labelBP.Text = $"Blood Pressure: {p.BloodPressure.Systolic}/{p.BloodPressure.Diastolic} mmHg";
-        labelRespRate.Text = $"Respiratory Rate: {p.RespiratoryRate} /min";
-        labelOxygen.Text = $"O₂ Saturation: {p.OxygenSaturation:F1}%";
+        labelAge.Text         = $"Age: {p.Age}";
+        labelSex.Text         = $"Sex: {p.Sex}";
+        labelWeight.Text      = $"Weight: {p.Weight} kg";
+        labelStatus.Text      = $"Status: {p.Status}";
+        labelHeartrate.Text   = $"Heart Rate: {p.Heartrate} bpm";
+        labelBP.Text          = $"Blood Pressure: {p.BloodPressure.Systolic}/{p.BloodPressure.Diastolic} mmHg";
+        labelRespRate.Text    = $"Respiratory Rate: {p.RespiratoryRate} /min";
+        labelOxygen.Text      = $"O₂ Saturation: {p.OxygenSaturation:F1}%";
         labelTemperature.Text = $"Temperature: {p.Temperature:F1} °C";
 
-        // Diagnoses & Medical History
-        listBoxDiagnoses.DataSource = p.Diagnoses?.Select(d => d.IllnessName).ToList();
+        listBoxDiagnoses.DataSource  = p.Diagnoses?.Select(d => d.IllnessName).ToList();
         listBoxMedHistory.DataSource = p.MedicalHistory?.Select(d => d.IllnessName).ToList();
-
-        // Medications & Allergies
         listBoxMedications.DataSource = p.Medications?.Select(m => m.MedicationName).ToList();
-        listBoxAllergies.DataSource = p.Allergies?.Select(a => a.MedicationName).ToList();
+        listBoxAllergies.DataSource  = p.Allergies?.Select(a => a.MedicationName).ToList();
+
+        await LoadEventLog();
+    }
+
+    private void OnActiveCasesClicked(object? sender, EventArgs e)
+    {
+        if (_currCase == null) return;
+        var view = new ActiveCasesView(_caseService, _currCase.UserId, async id => await LoadCase(id));
+        view.ShowDialog(this);
     }
 
     private async Task LoadEventLog()
