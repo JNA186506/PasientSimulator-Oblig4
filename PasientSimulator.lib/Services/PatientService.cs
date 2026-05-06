@@ -75,4 +75,11 @@ public class PatientService : IPatientService
 
         return illness;
     }
+
+    public async Task UpdatePatient(Patient patient)
+    {
+        ArgumentNullException.ThrowIfNull(patient, nameof(patient));
+        _context.Attach(patient).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
 }
