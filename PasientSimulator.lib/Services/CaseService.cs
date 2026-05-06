@@ -109,4 +109,11 @@ public class CaseService : ICaseService
     {
         return _context.Cases.FirstOrDefaultAsync(c => c.CaseId == id);
     }
+
+    public async Task UpdateCase(Case Case)
+    {
+        ArgumentNullException.ThrowIfNull(Case, nameof(Case));
+        _context.Attach(Case).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
 }
