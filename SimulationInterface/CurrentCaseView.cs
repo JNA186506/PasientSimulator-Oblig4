@@ -23,6 +23,7 @@ public partial class CurrentCaseView : Form
         
         Load += CurrentCaseView_Load;
         administerTreatmentButton.Click += AdministerTreatmentButton_OnClicked;
+        menuItemActiveCases.Click += OnActiveCasesClicked;
     }
 
     private void RefreshView(Patient p)
@@ -35,49 +36,58 @@ public partial class CurrentCaseView : Form
         listBoxMedications.DataSource = p.Medications?.Select(m => m.MedicationName).ToList();
         
     }
-
-    private async void CurrentCaseView_Load(object sender, EventArgs e)
+    
+    private async Task LoadCase(int id)
     {
-        _currCase = await _caseService.GetCaseById(1);
-        await LoadEventLog();
-
+        _currCase = await _caseService.GetCaseById(id);
         if (_currCase == null)
-        {
-            MessageBox.Show("Case not found.");
             return;
-        }
 
-        var p = _currCase.CasePatient;
+        await LoadEventLog();
+        PopulateView(_currCase);
+    }
+
+    private void PopulateView(Case c)
+    {
+        
+        var p = c.CasePatient;
         if (p == null)
         {
             MessageBox.Show("Patient data missing from case.");
             return;
         }
 
-        // Header
         labelCaseNo.Text = $"CASE #{_currCase.CaseId}";
         labelPatientName.Text = p.PatientName;
 
-        // Demographics
         labelAge.Text = $"Age: {p.Age}";
         labelSex.Text = $"Sex: {p.Sex}";
         labelWeight.Text = $"Weight: {p.Weight} kg";
         labelStatus.Text = $"Status: {p.Status}";
 
-        // Vitals
         labelHeartrate.Text = $"Heart Rate: {p.Heartrate} bpm";
         labelBP.Text = $"Blood Pressure: {p.BloodPressure.Systolic}/{p.BloodPressure.Diastolic} mmHg";
         labelRespRate.Text = $"Respiratory Rate: {p.RespiratoryRate} /min";
         labelOxygen.Text = $"O₂ Saturation: {p.OxygenSaturation:F1}%";
         labelTemperature.Text = $"Temperature: {p.Temperature:F1} °C";
 
-        // Diagnoses & Medical History
         listBoxDiagnoses.DataSource = p.Diagnoses?.Select(d => d.IllnessName).ToList();
         listBoxMedHistory.DataSource = p.MedicalHistory?.Select(d => d.IllnessName).ToList();
 
-        // Medications & Allergies
         listBoxMedications.DataSource = p.Medications?.Select(m => m.MedicationName).ToList();
-        listBoxAllergies.DataSource = p.Allergies?.Select(a => a.MedicationName).ToList();
+        listBoxAllergies.DataSource = p.Allergies?.Select(a => a.MedicationName).ToList();    }
+
+    private async void CurrentCaseView_Load(object sender, EventArgs e)
+    {
+        await LoadCase(1);
+        
+        if (_currCase == null)
+        {
+            MessageBox.Show("Case not found.");
+            return;
+        }
+
+        await LoadEventLog();
     }
 
     private async Task LoadEventLog()
@@ -125,5 +135,15 @@ public partial class CurrentCaseView : Form
         await LoadEventLog();
         RefreshView(currentPatient);
         
+    }
+
+    private void OnActiveCasesClicked(object? sender, EventArgs e)
+    {
+        if (_currCase == null)
+            return;
+
+        var view = new ActiveCasesView(_caseService, _currCase.UserId, async id =>
+            await LoadCase(id));
+        view.ShowDialog(this);
     }
 }

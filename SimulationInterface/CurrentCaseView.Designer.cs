@@ -29,6 +29,14 @@ partial class CurrentCaseView {
     /// </summary>
 private void InitializeComponent()
 {
+
+    menuStrip = new MenuStrip();
+    var casesMenu = new ToolStripMenuItem("Cases");
+    menuItemActiveCases = new ToolStripMenuItem("My Active Cases");
+
+    casesMenu.DropDownItems.Add(menuItemActiveCases);
+    menuStrip.Items.Add(casesMenu);
+
     labelCaseNo = new Label { 
         Text = "CASE #", Font = new Font("Segoe UI", 16F, FontStyle.Bold),
         Location = new Point(20, 20), Size = new Size(300, 40) 
@@ -108,7 +116,8 @@ private void InitializeComponent()
         groupDiagnoses, groupMedHistory,
         groupMedications, groupAllergies,
         groupEventLog,
-        administerTreatmentButton
+        administerTreatmentButton,
+        menuStrip
     });
 
     Text = "Simulation";
@@ -122,6 +131,8 @@ private Label labelHeartrate, labelBP, labelRespRate, labelOxygen, labelTemperat
 private ListBox listBoxDiagnoses, listBoxMedHistory, listBoxMedications, listBoxAllergies;
 private ListView listViewEvents;
 private Button administerTreatmentButton;
+private MenuStrip menuStrip;
+private ToolStripMenuItem menuItemActiveCases;
 
 #endregion
 }

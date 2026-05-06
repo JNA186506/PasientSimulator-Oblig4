@@ -21,6 +21,9 @@
         <Compile Update="AdministerTreatmentView.cs">
             <SubType>Form</SubType>
         </Compile>
+        <Compile Update="ActiveCasesView.cs">
+          <SubType>Form</SubType>
+        </Compile>
     </ItemGroup>
 
 </Project>
