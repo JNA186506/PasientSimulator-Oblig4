@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
@@ -26,6 +27,12 @@ internal static class Program
         services.AddScoped<IMedicationService, MedicationService>();
         services.AddTransient<CurrentCaseView>();
         services.AddTransient<AdministerTreatmentView>();
+
+        services.AddSingleton<HubConnection>(_ =>
+            new HubConnectionBuilder()
+                .WithUrl("http://localhost:5179/caseHub")
+                .WithAutomaticReconnect()
+                .Build());
 
         var provider = services.BuildServiceProvider();
 

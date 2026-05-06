@@ -1,5 +1,7 @@
+using CaseSetup.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
 
@@ -7,13 +9,15 @@ namespace CaseSetup.Pages;
 
 public class AddScenarioModel : PageModel
 {
+    private readonly IHubContext<CaseHub> _hubContext;
     public AddScenarioModel(PatientService patientService, UserService userService, CaseService caseService,
-        MedicationService medicationService)
+        MedicationService medicationService, IHubContext<CaseHub> hubContext)
     {
         PatientService = patientService;
         UserService = userService;
         CaseService = caseService;
         MedicationService = medicationService;
+        _hubContext = hubContext;
     }
 
     public PatientService PatientService { get; set; }
@@ -129,7 +133,8 @@ public class AddScenarioModel : PageModel
         };
 
         var newPatient = await PatientService.AddNewPatient(patient);
-        await CaseService.AddNewCase(newPatient, Student, CaseGoals);
+        var newCase = await CaseService.AddNewCase(newPatient, Student, CaseGoals);
+        await _hubContext.Clients.All.SendAsync("CaseUpdated", newCase.CaseId);
 
         return RedirectToPage();
     }

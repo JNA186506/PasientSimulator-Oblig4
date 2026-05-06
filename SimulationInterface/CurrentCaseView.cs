@@ -1,5 +1,6 @@
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace SimulationInterface;
 
@@ -9,21 +10,49 @@ public partial class CurrentCaseView : Form
     private readonly IMedicationService _medicationService;
     private readonly IUserService _userService;
     private readonly IAdministerTreatment _treatmentService;
+    private HubConnection _hubConnection;
 
     private Case? _currCase;
 
-    public CurrentCaseView(IMedicationService medicationService, ICaseService caseService, IUserService userService, IAdministerTreatment treatmentService)
+    public CurrentCaseView(IMedicationService medicationService, 
+        ICaseService caseService, IUserService userService, IAdministerTreatment treatmentService,
+        HubConnection hubConnection)
     {
         _medicationService = medicationService;
         _caseService = caseService;
         _userService = userService;
         _treatmentService = treatmentService;
+        _hubConnection = hubConnection;
 
         InitializeComponent();
-        
         Load += CurrentCaseView_Load;
+        Load += async (_, _) =>
+        {
+            await ConnectToHub();
+        };
         administerTreatmentButton.Click += AdministerTreatmentButton_OnClicked;
         menuItemActiveCases.Click += OnActiveCasesClicked;
+    }
+
+    private async Task ConnectToHub()
+    {
+ 
+        _hubConnection.On<int>("CaseUpdated", async (caseId) =>
+        {
+            if (_currCase != null && _currCase.CaseId == caseId) {
+                Invoke(() => _ = LoadCase(caseId));
+            }
+        });
+
+        _hubConnection.On<int, string, string>("CommentRecieved", (caseId, comment, author) =>
+        {
+            Invoke(() =>
+            {
+                labelStatus.Text = $"New comment on case {caseId} by {author}: {comment}";
+            });
+        });
+
+        await _hubConnection.StartAsync();
     }
 
     private void RefreshView(Patient p)
@@ -108,20 +137,21 @@ public partial class CurrentCaseView : Form
 
     private async void AdministerTreatmentButton_OnClicked(object? sender, EventArgs e)
     {
-        Patient? currentPatient = _currCase.CasePatient;
-        List<Medication> allMedications = await _medicationService.GetAllMedications();
         if (_currCase == null)
         {
             MessageBox.Show("Case data is not loaded yet.");
             return;
         }
+       
+        Patient? currentPatient = _currCase.CasePatient;
         if (currentPatient == null)
         {
             MessageBox.Show("Patient data is not loaded yet.");
             return;
         }
-
-        using var treatmentView =
+        
+        List<Medication> allMedications = await _medicationService.GetAllMedications();
+             using var treatmentView =
             new AdministerTreatmentView(currentPatient, _treatmentService, allMedications);
         var result = treatmentView.ShowDialog(this);
         
@@ -132,9 +162,9 @@ public partial class CurrentCaseView : Form
             EventType = EventEnum.MedicalIntervention,
             Description = $"Administered {treatmentView.SelectedTreatment}"
         });
+        
         await LoadEventLog();
         RefreshView(currentPatient);
-        
     }
 
     private void OnActiveCasesClicked(object? sender, EventArgs e)
