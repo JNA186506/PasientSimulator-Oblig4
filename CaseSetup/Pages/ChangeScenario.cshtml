@@ -23,7 +23,7 @@
     <fieldset>
         <legend>Update case</legend>
         <form method="post">
-            <input type="text" name="caseId" id="caseId" value="@Model.Case.CaseId" />
+            <input type="hidden" name="caseId" id="caseId" value="@Model.Case.CaseId" />
             <label for="selectStudent">Select student</label>
             <select name="selectStudent" id="selectStudent">
                 @foreach (var student in Model.Students)
