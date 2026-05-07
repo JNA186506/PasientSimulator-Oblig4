@@ -24,6 +24,7 @@ public class CaseService : ICaseService
     public async Task<List<Case>> GetAllCases()
     {
         return await _context.Cases
+            .AsNoTracking()
             .Include(c => c.CasePatient)
             .Include(c => c.Student)
             .Include(c => c.Goals)
@@ -41,6 +42,7 @@ public class CaseService : ICaseService
     public async Task<Case> GetCaseById(int id)
     {
         var currCase = await _context.Cases
+            .AsNoTracking()
             .Include(c => c.CasePatient)
             .ThenInclude(p => p.Diagnoses)
             .Include(c => c.CasePatient)
