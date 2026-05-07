@@ -2,6 +2,7 @@
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
 using PasientSimulator.lib.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Assessment;
 
@@ -9,17 +10,30 @@ public partial class MainPage : ContentPage
 {
     private readonly ICaseService _caseService;
     private ObservableCollection<Case> _cases;
+    private HubConnection _hubConnection;
 
-    public MainPage(CaseService caseService)
+    public MainPage(CaseService caseService, HubConnection hubConnection)
     {
         InitializeComponent();
 
         _caseService = caseService;
+        _hubConnection = hubConnection;
+    }
+
+    async Task Connect()
+    {
+        _hubConnection.On<int>("CaseUpdated", async (caseid) =>
+        {
+            await MainThread.InvokeOnMainThreadAsync(LoadData);
+        });
+
+        await _hubConnection.StartAsync();
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        await Connect();
         await LoadData();
     }
 

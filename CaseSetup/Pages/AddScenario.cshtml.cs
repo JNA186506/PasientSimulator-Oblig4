@@ -9,7 +9,7 @@ namespace CaseSetup.Pages;
 
 public class AddScenarioModel : PageModel
 {
-    private readonly IHubContext<CaseHub> _hubContext;
+    private IHubContext<CaseHub> _hubContext;
     public AddScenarioModel(PatientService patientService, UserService userService, CaseService caseService,
         MedicationService medicationService, IHubContext<CaseHub> hubContext)
     {

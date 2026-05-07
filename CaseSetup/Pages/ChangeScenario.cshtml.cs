@@ -8,15 +8,15 @@ using PasientSimulator.lib.Services.Interfaces;
 
 namespace CaseSetup.Pages
 {
-    public class ChangeScenarioModel : PageModel
-    {
+    public class ChangeScenarioModel : PageModel {
+        private IHubContext<CaseHub> _hubContext; 
         public ChangeScenarioModel(PatientService patientService, UserService userService, CaseService caseService, MedicationService medicationService, IHubContext<CaseHub> hubContext)
         {
             PatientService = patientService;
             UserService = userService;
             CaseService = caseService;
             MedicationService = medicationService;
-            HubContext = hubContext;
+            _hubContext = hubContext;
         }
         public List<Medication> Allergies { get; set; }
         public List<Illness> Diagnoses { get; set; }
@@ -26,7 +26,6 @@ namespace CaseSetup.Pages
         public UserService UserService { get; set; }
         public CaseService CaseService { get; set; }
         public MedicationService MedicationService { get; set; }
-        public IHubContext<CaseHub> HubContext { get; set; }
         public Case Case { get; set; }
         public async Task OnGetAsync(int idInt)
         {
@@ -59,7 +58,7 @@ namespace CaseSetup.Pages
                     CaseGoals.Add(await CaseService.FindGoal(num));
             Case.Goals = CaseGoals;
             await CaseService.UpdateCase(Case);
-            await HubContext.Clients.All.SendAsync("NotifyCaseChamged", id);
+            await _hubContext.Clients.All.SendAsync("CaseUpdated", Case.CaseId);
             return RedirectToPage(new { idInt = id });
         }
         public async Task<IActionResult> OnPostUpdatePatient()
@@ -125,7 +124,7 @@ namespace CaseSetup.Pages
                 }
             Case.CasePatient.Allergies = patientAllergies;
             await PatientService.UpdatePatient(Case.CasePatient);
-            await HubContext.Clients.All.SendAsync("NotifyCaseChamged", id);
+            await _hubContext.Clients.All.SendAsync("CaseUpdated", Case.CaseId);
             return RedirectToPage(new { idInt = id });
         }
     }
