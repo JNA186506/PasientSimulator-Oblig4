@@ -6,28 +6,33 @@
 
 <div class="text-center">
     <h1 class="display-4">Case Setup</h1>
-    <h2>Patient case scenario</h2>
-    <p>Here comes the list of patient case scenarios.</p>
-    @foreach (var scenario in Model.Cases)
-    {
-        <section>
-            <p>@scenario.CasePatient.PatientName | @scenario.Student.Name</p>
-            <h3>Goals</h3>
-            @foreach (var goal in scenario.Goals)
-            {
-                <p>@goal.Description</p>
-            }
-            <form method="post">
-                <input type="hidden" name="scenarioId" id="view @scenario.CaseId" value="@scenario.CaseId"/>
-                <button type="submit" asp-page-handler="SendToViewScenario">View scenario</button>
-            </form>
-            <form method="post">
-                <input type="hidden" name="scenarioId" id="change @scenario.CaseId" value="@scenario.CaseId" />
-                <button type="submit" asp-page-handler="SendToChangeScenario">Change scenario</button>
-            </form>
-        </section>
-    }
-    <form method="get">
-        <button type="submit" asp-page="/AddScenario">Add scenario</button>
-    </form>
+    <fieldset>
+        <legend>Patient case scenario</legend>
+        <p>Here comes the list of patient case scenarios.</p>
+        @foreach (var scenario in Model.Cases)
+        {
+            <fieldset>
+                <p>@scenario.CasePatient.PatientName | @scenario.Student.Name</p>
+                <h3>Goals</h3>
+                @foreach (var goal in scenario.Goals)
+                {
+                    <p>@goal.Description</p>
+                }
+                <form method="post">
+                    <input type="hidden" name="scenarioId" id="view @scenario.CaseId" value="@scenario.CaseId"/>
+                    <button type="submit" asp-page-handler="SendToViewScenario">View scenario</button>
+                </form>
+                <form method="post">
+                    <input type="hidden" name="scenarioId" id="change @scenario.CaseId" value="@scenario.CaseId" />
+                    <button type="submit" asp-page-handler="SendToChangeScenario">Change scenario</button>
+                </form>
+            </fieldset>
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Add new case scenario</legend>
+        <form method="get">
+            <button type="submit" asp-page="/AddScenario">Add scenario</button>
+        </form>
+    </fieldset>
 </div>

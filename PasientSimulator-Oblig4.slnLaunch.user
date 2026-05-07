@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "CaseSetup\\CaseSetup.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Assessment\\Assessment.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SimulationInterface\\SimulationInterface.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
