@@ -1,5 +1,7 @@
+using CaseSetup.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
 using PasientSimulator.lib.Services.Interfaces;
@@ -8,12 +10,13 @@ namespace CaseSetup.Pages
 {
     public class ChangeScenarioModel : PageModel
     {
-        public ChangeScenarioModel(PatientService patientService, UserService userService, CaseService caseService, MedicationService medicationService)
+        public ChangeScenarioModel(PatientService patientService, UserService userService, CaseService caseService, MedicationService medicationService, IHubContext<CaseHub> hubContext)
         {
             PatientService = patientService;
             UserService = userService;
             CaseService = caseService;
             MedicationService = medicationService;
+            HubContext = hubContext;
         }
         public List<Medication> Allergies { get; set; }
         public List<Illness> Diagnoses { get; set; }
@@ -23,6 +26,7 @@ namespace CaseSetup.Pages
         public UserService UserService { get; set; }
         public CaseService CaseService { get; set; }
         public MedicationService MedicationService { get; set; }
+        public IHubContext<CaseHub> HubContext { get; set; }
         public Case Case { get; set; }
         public async Task OnGetAsync(int idInt)
         {
@@ -55,6 +59,7 @@ namespace CaseSetup.Pages
                     CaseGoals.Add(await CaseService.FindGoal(num));
             Case.Goals = CaseGoals;
             await CaseService.UpdateCase(Case);
+            await HubContext.Clients.All.SendAsync("NotifyCaseChamged", id);
             return RedirectToPage(new { idInt = id });
         }
         public async Task<IActionResult> OnPostUpdatePatient()
@@ -75,7 +80,7 @@ namespace CaseSetup.Pages
             int heartrate = -1;
             BloodPressure? bloodPressure = null;
             int respiratoryRate = -1;
-            int oxygenSaturation = -1;
+            double oxygenSaturation = -1;
             double? temperature = null;
             List<Illness> patientDiagnoses = new List<Illness>();
             List<Medication> patientAllergies = new List<Medication>();
@@ -97,9 +102,9 @@ namespace CaseSetup.Pages
             if (bloodPressure != null) Case.CasePatient.BloodPressure = bloodPressure;
             if(int.TryParse(Request.Form["respiratoryRate"], out int rr)) respiratoryRate = rr;
             if(respiratoryRate >= 0) Case.CasePatient.RespiratoryRate = respiratoryRate;
-            if(int.TryParse(Request.Form["oxygenSaturation"], out int os)) oxygenSaturation = os;
+            if (double.TryParse(Request.Form["oxygenSaturation"], out double os)) oxygenSaturation = os;
             if(oxygenSaturation >= 0) Case.CasePatient.OxygenSaturation = oxygenSaturation;
-            if(double.TryParse(Request.Form["temperature"], out double temp)) temperature = temp;
+            if (double.TryParse(Request.Form["temperature"], out double temp)) temperature = temp;
             if(temperature != null) Case.CasePatient.Temperature = (double)temperature;
             var DiagnosesStr = Request.Form["diagnoses"].ToString().Split(',').ToList();
             foreach (var s in DiagnosesStr)
@@ -120,6 +125,7 @@ namespace CaseSetup.Pages
                 }
             Case.CasePatient.Allergies = patientAllergies;
             await PatientService.UpdatePatient(Case.CasePatient);
+            await HubContext.Clients.All.SendAsync("NotifyCaseChamged", id);
             return RedirectToPage(new { idInt = id });
         }
     }

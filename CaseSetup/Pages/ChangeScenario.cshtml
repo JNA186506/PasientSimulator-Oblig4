@@ -31,14 +31,12 @@
                     <option value="@student.UserId" selected="@(student.UserId == Model.Case.Student.UserId)">@student.Name</option>
                 }
             </select><br />
-            <fieldset>
-                <legend>Goals</legend>
+                <p>Goals</p>
                 @foreach (var goal in Model.Goals)
                 {
                     <label for="goal-@goal.GoalId">@goal.Description</label>
                     <input type="checkbox" id="goal-@goal.GoalId" name="goals" value="@goal.GoalId" @(Model.Case.Goals.Any(g => g.GoalId == goal.GoalId) ? "checked" : "") />
-                }
-            </fieldset><br />
+                }<br />
             <button type="submit" asp-page-handler="UpdateCase">Update Scenario</button>
         </form>
     </fieldset>
@@ -73,25 +71,21 @@
             <label for="respiratoryRate">Respiratory Rate</label>
             <input type="number" name="respiratoryRate" id="respiratoryRate" value="@Model.Case.CasePatient.RespiratoryRate" /><br />
             <label for="oxygenSaturation">Oxygen Saturation</label>
-            <input type="number" name="oxygenSaturation" id="oxygenSaturation" value="@Model.Case.CasePatient.OxygenSaturation" /><br />
+            <input type="number" name="oxygenSaturation" id="oxygenSaturation" value="@Model.Case.CasePatient.OxygenSaturation" step="0.1" /><br />
             <label for="temperature">Temperature</label>
-            <input type="number" name="temperature" id="temperature" value="@Model.Case.CasePatient.Temperature" /><br />
-            <fieldset>
-                <legend>Diagnoses</legend>
+            <input type="number" name="temperature" id="temperature" value="@Model.Case.CasePatient.Temperature" step="0.1" /><br />
+                <p>Diagnoses</p>
                 @foreach (var illness in Model.Diagnoses)
                 {
                     <label for="illness-@illness.IllnessId">@illness.IllnessName</label>
                     <input type="checkbox" id="illness-@illness.IllnessId" name="diagnoses" value="@illness.IllnessId" @(Model.Case.CasePatient.Diagnoses.Any(d => d.IllnessId == illness.IllnessId) ? "checked" : "") />
-                }
-            </fieldset><br />
-            <fieldset>
-                <legend>Allergies</legend>
+                }<br />
+                <p>Allergies</p>
                 @foreach (var allergy in Model.Allergies)
                 {
                     <label for="allergy-@allergy.MedicationId">@allergy.MedicationName</label>
                     <input type="checkbox" id="allergy-@allergy.MedicationId" name="allergies" value="@allergy.MedicationId" @(Model.Case.CasePatient.Allergies.Any(a => a.MedicationId == allergy.MedicationId) ? "checked" : "") />
-                }
-            </fieldset><br />
+                }<br />
             <button type="submit" asp-page-handler="UpdatePatient">Update Patient</button>
         </form>
     </fieldset>
