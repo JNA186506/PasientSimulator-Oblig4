@@ -36,6 +36,7 @@ public class CaseService : ICaseService
         return await _context.Cases
             .Include(c => c.CasePatient)
             .Include(c => c.Student)
+            .Where(c => c.UserId == id)
             .ToListAsync();
     }
 
