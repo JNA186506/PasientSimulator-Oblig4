@@ -25,7 +25,7 @@
         <form method="post">
             <input type="hidden" name="caseId" id="caseId" value="@Model.Case.CaseId" />
             <label for="selectStudent">Select student</label>
-            <select name="selectStudent" id="selectStudent">
+            <select asp-for="StudentId">
                 @foreach (var student in Model.Students)
                 {
                     <option value="@student.UserId" selected="@(student.UserId == Model.Case.Student.UserId)">@student.Name</option>
@@ -43,37 +43,37 @@
     <fieldset>
         <legend>Update patient</legend>
         <form method="post">
-            <input type="hidden" name="caseId" id="patientCaseId" value="@Model.Case.CaseId" />
-            <label for="selectStatus">Velg status</label>
-            <select name="selectStatus" id="selectStatus">
+            <input type="hidden" name="caseId" id="caseId" value="@Model.Case.CaseId" />
+            <label for="Status">Velg status</label>
+            <select asp-for="Status">
                 <option value="1" selected="@(Model.Case.CasePatient.Status == PasientSimulator.lib.Models.Patient.StatusEnum.Healthy)">Healthy</option>
                 <option value="2" selected="@(Model.Case.CasePatient.Status == PasientSimulator.lib.Models.Patient.StatusEnum.Sick)">Sick</option>
                 <option value="3" selected="@(Model.Case.CasePatient.Status == PasientSimulator.lib.Models.Patient.StatusEnum.Dead)">Dead</option>
             </select><br />
-            <label for="patientName">Name</label>
-            <input type="text" name="patientName" id="patientName" value="@Model.Case.CasePatient.PatientName"/><br />
-            <label for="patientWeight">Weight</label>
-            <input type="number" name="patientWeight" id="patientWeight" value="@Model.Case.CasePatient.Weight"/><br />
-            <label for="patientAge">Age</label>
-            <input type="number" name="patientAge" id="patientAge" value="@Model.Case.CasePatient.Age"/><br />
-            <label for="selectSex">Sex</label>
-            <select name="selectSex" id="selectSex">
+            <label for="PatientName">Name</label>
+            <input type="text" asp-for="PatientName" value="@Model.Case.CasePatient.PatientName"/><br />
+            <label for="PatientWeight">Weight</label>
+            <input type="number" asp-for="PatientWeight" value="@Model.Case.CasePatient.Weight"/><br />
+            <label for="PatientAge">Age</label>
+            <input type="number" asp-for="PatientAge" value="@Model.Case.CasePatient.Age"/><br />
+            <label for="Sex">Sex</label>
+            <select asp-for="Sex">
                 <option value="1" selected="@(Model.Case.CasePatient.Sex == PasientSimulator.lib.Models.Patient.SexEnum.Male)">Male</option>
                 <option value="2" selected="@(Model.Case.CasePatient.Sex == PasientSimulator.lib.Models.Patient.SexEnum.Female)">Female</option>
                 <option value="3" selected="@(Model.Case.CasePatient.Sex == PasientSimulator.lib.Models.Patient.SexEnum.Other)">Other</option>
             </select><br />
-            <label for="heartrate">Heartrate</label>
-            <input type="number" name="heartrate" id="heartrate" value="@Model.Case.CasePatient.Heartrate" /><br />
-            <label for="bloodpressureSystolic">Bloodpressure Systolic</label>
-            <input type="number" name="bloodpressureSystolic" id="bloodpressureSystolic" value="@Model.Case.CasePatient.BloodPressure.Systolic" /><br />
-            <label for="bloodpressureDiastolic">Bloodpressure Diastolic</label>
-            <input type="number" name="bloodpressureDiastolic" id="bloodpressureDiastolic" value="@Model.Case.CasePatient.BloodPressure.Diastolic" /><br />
-            <label for="respiratoryRate">Respiratory Rate</label>
-            <input type="number" name="respiratoryRate" id="respiratoryRate" value="@Model.Case.CasePatient.RespiratoryRate" /><br />
-            <label for="oxygenSaturation">Oxygen Saturation</label>
-            <input type="number" name="oxygenSaturation" id="oxygenSaturation" value="@Model.Case.CasePatient.OxygenSaturation" step="0.1" /><br />
-            <label for="temperature">Temperature</label>
-            <input type="number" name="temperature" id="temperature" value="@Model.Case.CasePatient.Temperature" step="0.1" /><br />
+            <label for="Heartrate">Heartrate</label>
+            <input type="number" asp-for="Heartrate" value="@Model.Case.CasePatient.Heartrate" /><br />
+            <label for="Systolic">Bloodpressure Systolic</label>
+            <input type="number" asp-for="Systolic" value="@Model.Case.CasePatient.BloodPressure.Systolic" /><br />
+            <label for="Diastolic">Bloodpressure Diastolic</label>
+            <input type="number" asp-for="Diastolic" value="@Model.Case.CasePatient.BloodPressure.Diastolic" /><br />
+            <label for="RespiratoryRate">Respiratory Rate</label>
+            <input type="number" asp-for="RespiratoryRate" value="@Model.Case.CasePatient.RespiratoryRate" /><br />
+            <label for="OxygenSaturation">Oxygen Saturation</label>
+            <input type="number" asp-for="OxygenSaturation" value="@Model.Case.CasePatient.OxygenSaturation" step="0.1" /><br />
+            <label for="Temperature">Temperature</label>
+            <input type="number" asp-for="Temperature" value="@Model.Case.CasePatient.Temperature" step="0.1" /><br />
                 <p>Diagnoses</p>
                 @foreach (var illness in Model.Diagnoses)
                 {

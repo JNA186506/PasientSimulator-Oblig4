@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services.Interfaces;
+using System.Linq;
 
 namespace PasientSimulator.lib.Services;
 
@@ -79,7 +80,55 @@ public class PatientService : IPatientService
     public async Task UpdatePatient(Patient patient)
     {
         ArgumentNullException.ThrowIfNull(patient, nameof(patient));
-        _context.Attach(patient).State = EntityState.Modified;
+
+        // Load the tracked patient including navigation collections we will update
+        var existing = await _context.Patients
+            .Include(p => p.Diagnoses)
+            .Include(p => p.Allergies)
+            .Include(p => p.BloodPressure)
+            .FirstOrDefaultAsync(p => p.PatientId == patient.PatientId);
+
+        if (existing == null) throw new KeyNotFoundException($"Patient {patient.PatientId} not found");
+
+        // Map scalar and simple properties
+        existing.PatientName = patient.PatientName;
+        existing.Weight = patient.Weight;
+        existing.Age = patient.Age;
+        existing.Sex = patient.Sex;
+        existing.Status = patient.Status;
+        existing.Heartrate = patient.Heartrate;
+        existing.RespiratoryRate = patient.RespiratoryRate;
+        existing.OxygenSaturation = patient.OxygenSaturation;
+        existing.Temperature = patient.Temperature;
+
+        // Owned type: BloodPressure
+        if (patient.BloodPressure != null)
+        {
+            existing.BloodPressure ??= new BloodPressure();
+            existing.BloodPressure.Systolic = patient.BloodPressure.Systolic;
+            existing.BloodPressure.Diastolic = patient.BloodPressure.Diastolic;
+        }
+
+        // Replace Diagnoses with tracked Illness instances fetched by id
+        var diagIds = (patient.Diagnoses ?? new List<Illness>()).Select(i => i.IllnessId).Distinct().ToList();
+        existing.Diagnoses ??= new List<Illness>();
+        existing.Diagnoses.Clear();
+        if (diagIds.Any())
+        {
+            var trackedIllnesses = await _context.Illnesses.Where(i => diagIds.Contains(i.IllnessId)).ToListAsync();
+            foreach (var t in trackedIllnesses) existing.Diagnoses.Add(t);
+        }
+
+        // Replace Allergies with tracked Medication instances fetched by id
+        var medIds = (patient.Allergies ?? new List<Medication>()).Select(m => m.MedicationId).Distinct().ToList();
+        existing.Allergies ??= new List<Medication>();
+        existing.Allergies.Clear();
+        if (medIds.Any())
+        {
+            var trackedMeds = await _context.Medications.Where(m => medIds.Contains(m.MedicationId)).ToListAsync();
+            foreach (var m in trackedMeds) existing.Allergies.Add(m);
+        }
+
         await _context.SaveChangesAsync();
     }
 }
