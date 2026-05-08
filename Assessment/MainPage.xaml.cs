@@ -37,10 +37,10 @@ public partial class MainPage : ContentPage
         if (button?.CommandParameter is Case SelectedCase)
         {
             // Use the same query parameter name as the QueryProperty on CasePage ("Case")
-            await Shell.Current.GoToAsync(nameof(CasePage), true, new Dictionary<string, object>
-            {
-                { "case", SelectedCase }
-            });
+            await Navigation.PushAsync(new CasePage(_hubConnection, _caseService, SelectedCase)); 
+        }
+        else {
+            await DisplayAlert("Error", "Cannot find selected case.", "OK");
         }
     }
 

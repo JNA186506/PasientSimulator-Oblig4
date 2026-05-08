@@ -21,6 +21,7 @@ public static class MauiProgram
         builder.Services.AddDbContext<Context>();
         builder.Services.AddScoped<CaseService>();
         builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<CasePage>();
         builder.Services.AddSingleton<HubConnection>(_ => 
             new HubConnectionBuilder()
                 .WithUrl("http://localhost:5179/caseHub")

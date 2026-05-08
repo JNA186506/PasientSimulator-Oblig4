@@ -14,24 +14,14 @@ public partial class CasePage : ContentPage
     private readonly ICaseService _caseService;
     private Case _case;
 
-    public Case Case
-        {
-        get => _case; 
-        set
-        {
-            _case = value;  
-            BindingContext = _case; // bind UI to the model
-            
-        }
-        }
 
-
-    public CasePage(HubConnection hubConnection, CaseService caseService, int CaseId)
+    public CasePage(HubConnection hubConnection, ICaseService caseService, Case currCase)
     {
         InitializeComponent();
         _caseService = caseService;
         _hubConnection = hubConnection;
-        _caseId = CaseId;
+        _case = currCase;
+        
 
     }
     async Task Connect()
@@ -40,8 +30,9 @@ public partial class CasePage : ContentPage
         {
             await MainThread.InvokeOnMainThreadAsync(LoadCase);
         });
-
-        await _hubConnection.StartAsync();
+        if (_hubConnection.State == HubConnectionState.Disconnected) {
+            await _hubConnection.StartAsync();
+        }
     }
 
     protected override async void OnAppearing()
@@ -76,7 +67,6 @@ public partial class CasePage : ContentPage
     {
         try
         {
-            _case = await _caseService.GetCaseByIdAsync(_caseId);
             if (_case != null)
                 BindingContext = _case; // bind UI to the model
             else
