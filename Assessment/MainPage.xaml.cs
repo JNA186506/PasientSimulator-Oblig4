@@ -30,6 +30,20 @@ public partial class MainPage : ContentPage
         await _hubConnection.StartAsync();
     }
 
+    public async void NavigateButton_Click(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        // Redirects to CasePage.xaml
+        if (button?.CommandParameter is Case SelectedCase)
+        {
+            // Use the same query parameter name as the QueryProperty on CasePage ("Case")
+            await Shell.Current.GoToAsync(nameof(CasePage), true, new Dictionary<string, object>
+            {
+                { "case", SelectedCase }
+            });
+        }
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();

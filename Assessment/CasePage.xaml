@@ -10,7 +10,11 @@
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -44,6 +48,23 @@
                 </FormattedString>
             </Label.FormattedText>
         </Label>
+
+        <Label Grid.Column="0" Grid.Row="2">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Status: " FontSize="16" />
+                    <Span Text="{Binding CaseStatus}" FontSize="16" FontAttributes="Bold" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+
+        <Label Grid.ColumnSpan ="2" Grid.Row="2"/>
+        <Editor 
+            x:Name="vurdering"
+            TextChanged="OnEditorTextChanged"
+             />
+
 
     </Grid>
 </ContentPage>
