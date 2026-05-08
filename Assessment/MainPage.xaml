@@ -80,7 +80,10 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Button Grid.Row="5" Grid.Column="1"
+                                <Button
+                                        Clicked="NavigateButton_Click"
+                                        CommandParameter="{Binding .}"
+                                        Grid.Row="5" Grid.Column="1"
                                         Text="View Case"
                                         MaximumWidthRequest="100"
                                         HorizontalOptions="Start" />
