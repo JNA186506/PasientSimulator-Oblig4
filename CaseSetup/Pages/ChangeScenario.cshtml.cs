@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 using PasientSimulator.lib.Models;
 using PasientSimulator.lib.Services;
-using PasientSimulator.lib.Services.Interfaces;
 
 namespace CaseSetup.Pages
 {
@@ -27,6 +26,30 @@ namespace CaseSetup.Pages
         public CaseService CaseService { get; set; }
         public MedicationService MedicationService { get; set; }
         public Case Case { get; set; }
+        [BindProperty]
+        public int StudentId { get; set; }
+        [BindProperty]
+        public String Status { get; set; }
+        [BindProperty]
+        public String PatientName { get; set; }
+        [BindProperty]
+        public int PatientWeight { get; set; }
+        [BindProperty]
+        public int PatientAge { get; set; }
+        [BindProperty]
+        public int Sex { get; set; }
+        [BindProperty]
+        public int Heartrate { get; set; }
+        [BindProperty]
+        public int Systolic { get; set; }
+        [BindProperty]
+        public int Diastolic { get; set; }
+        [BindProperty]
+        public int RespiratoryRate { get; set; }
+        [BindProperty]
+        public double OxygenSaturation { get; set; }
+        [BindProperty]
+        public double Temperature { get; set; }
         public async Task OnGetAsync(int idInt)
         {
             Allergies = await PatientService.GetAllAllergies();
@@ -45,13 +68,13 @@ namespace CaseSetup.Pages
 
             int.TryParse(Request.Form["caseId"], out int id);
             Case = await CaseService.GetCaseById(id);
-
-            User? Student = null;
-            List<Goal> CaseGoals = new List<Goal>();
+            
             if (Case == null) return RedirectToPage("/Index");
-            if (int.TryParse(Request.Form["selectStudent"], out var studentId))
-                Student = await UserService.FindStudent(studentId);
+
+            User? Student = await UserService.FindStudent(StudentId);
             if (Student != null) Case.Student = Student;
+
+            List<Goal> CaseGoals = new List<Goal>();
             var GoalsStr = Request.Form["goals"].ToString().Split(',').ToList();
             foreach (var s in GoalsStr)
                 if (int.TryParse(s, out var num))
@@ -70,48 +93,26 @@ namespace CaseSetup.Pages
 
             int.TryParse(Request.Form["caseId"], out int id);
             Case = await CaseService.GetCaseById(id);
-
-            int selectStatus = -1;
-            String? patientName = Request.Form["patientName"];
-            int patientWeight = -1;
-            int patientAge = -1;
-            Patient.SexEnum? selectSex = null;
-            int heartrate = -1;
-            BloodPressure? bloodPressure = null;
-            int respiratoryRate = -1;
-            double oxygenSaturation = -1;
-            double? temperature = null;
+            if (Status != null) Case.CasePatient.Status = (Patient.StatusEnum)Enum.Parse(typeof(Patient.StatusEnum), Status);
+            if (PatientName != null) Case.CasePatient.PatientName = PatientName;
+            if (PatientWeight > 0) Case.CasePatient.Weight = PatientWeight;
+            if (PatientAge > 0) Case.CasePatient.Age = PatientAge;
+            if (Sex > 0 && Sex <= 4) Case.CasePatient.Sex = (Patient.SexEnum)Sex;
+            if (Heartrate > 0) Case.CasePatient.Heartrate = Heartrate;
+            if (Case.CasePatient.BloodPressure == null) Case.CasePatient.BloodPressure = new BloodPressure() { Systolic = 0, Diastolic = 0 };
+            if (Systolic > 0) Case.CasePatient.BloodPressure.Systolic = Systolic;
+            if (Diastolic > 0) Case.CasePatient.BloodPressure.Diastolic = Diastolic;
+            if (RespiratoryRate > 0) Case.CasePatient.RespiratoryRate = RespiratoryRate;
+            if (OxygenSaturation > 0) Case.CasePatient.OxygenSaturation = OxygenSaturation;
+            Case.CasePatient.Temperature = Temperature;
             List<Illness> patientDiagnoses = new List<Illness>();
             List<Medication> patientAllergies = new List<Medication>();
-            if (Case == null || Case.CasePatient == null) return RedirectToPage("/Index");
-            if (int.TryParse(Request.Form["selectStatus"], out int status)) selectStatus = status;
-            if (selectStatus >= 0) Case.CasePatient.Status = (Patient.StatusEnum) selectStatus;
-            if (patientName != null) Case.CasePatient.PatientName = patientName;
-            if (int.TryParse(Request.Form["patientWeight"], out int weight)) patientWeight = weight;
-            if (patientWeight >= 0) Case.CasePatient.Weight = patientWeight;
-            if (int.TryParse(Request.Form["patientAge"], out int age)) patientAge = age;
-            if (patientAge >= 0) Case.CasePatient.Age = patientAge;
-            if (int.TryParse(Request.Form["selectSex"], out int sex)) selectSex = (Patient.SexEnum)sex;
-            if (selectSex != null) Case.CasePatient.Sex = (Patient.SexEnum)selectSex;
-            if (int.TryParse(Request.Form["heartrate"], out int hr)) heartrate = hr;
-            if (heartrate >= 0) Case.CasePatient.Heartrate = heartrate;
-            if (int.TryParse(Request.Form["bloodpressureSystolic"], out var bloodpressureSystolic) &&
-                int.TryParse(Request.Form["bloodpressureDiastolic"], out var bloodpressureDiastolic))
-                    if(bloodpressureSystolic >= 0 && bloodpressureDiastolic >= 0) bloodPressure = new BloodPressure { Systolic = bloodpressureSystolic, Diastolic = bloodpressureDiastolic };
-            if (bloodPressure != null) Case.CasePatient.BloodPressure = bloodPressure;
-            if(int.TryParse(Request.Form["respiratoryRate"], out int rr)) respiratoryRate = rr;
-            if(respiratoryRate >= 0) Case.CasePatient.RespiratoryRate = respiratoryRate;
-            if (double.TryParse(Request.Form["oxygenSaturation"], out double os)) oxygenSaturation = os;
-            if(oxygenSaturation >= 0) Case.CasePatient.OxygenSaturation = oxygenSaturation;
-            if (double.TryParse(Request.Form["temperature"], out double temp)) temperature = temp;
-            if(temperature != null) Case.CasePatient.Temperature = (double)temperature;
             var DiagnosesStr = Request.Form["diagnoses"].ToString().Split(',').ToList();
             foreach (var s in DiagnosesStr)
                 if (int.TryParse(s, out var num))
                 {
                     var illness = Diagnoses.FirstOrDefault(d => d.IllnessId == num);
                     if (illness != null) patientDiagnoses.Add(Diagnoses.First(d => d.IllnessId == num));
-                    // PatientDiagnoses.Add(await PatientService.FindIllness(num));
                 }
             Case.CasePatient.Diagnoses = patientDiagnoses;
             var AllergiesStr = Request.Form["allergies"].ToString().Split(',').ToList();
@@ -120,7 +121,6 @@ namespace CaseSetup.Pages
                 {
                     var medication = Allergies.FirstOrDefault(d => d.MedicationId == num);
                     if (medication != null) patientAllergies.Add(Allergies.First(a => a.MedicationId == num));
-                    // PatientAllergies.Add(await MedicationService.FindMedication(num));
                 }
             Case.CasePatient.Allergies = patientAllergies;
             await PatientService.UpdatePatient(Case.CasePatient);
