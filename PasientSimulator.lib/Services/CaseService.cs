@@ -115,7 +115,45 @@ public class CaseService : ICaseService
     public async Task UpdateCase(Case Case)
     {
         ArgumentNullException.ThrowIfNull(Case, nameof(Case));
-        _context.Attach(Case).State = EntityState.Modified;
+
+        var existingCase = await _context.Cases
+            .Include(c => c.CasePatient)
+                .ThenInclude(p => p.Allergies)
+            .Include(c => c.Student)
+            .Include(c => c.Goals)
+            .FirstOrDefaultAsync(p => p.CaseId == Case.CaseId);
+
+        if (existingCase == null) throw new KeyNotFoundException($"Case {Case.CaseId} not found");
+
+        existingCase.PatientId = Case.PatientId;
+        existingCase.UserId = Case.UserId;
+
+        // Attach tracked patient if it exists
+        if (Case.CasePatient?.PatientId > 0)
+        {
+            var trackedPatient = await _context.Patients
+                .Include(p => p.Allergies)
+                .FirstOrDefaultAsync(p => p.PatientId == Case.CasePatient.PatientId);
+            if (trackedPatient != null) existingCase.CasePatient = trackedPatient;
+        }
+
+        // Attach tracked student if present
+        if (Case.Student?.UserId > 0)
+        {
+            var trackedStudent = await _context.Users.FindAsync(Case.Student.UserId);
+            if (trackedStudent != null) existingCase.Student = trackedStudent;
+        }
+
+        // Goals (keep your existing safe pattern)
+        var goalsId = (Case.Goals ?? new List<Goal>()).Select(g => g.GoalId).Distinct().ToList();
+        existingCase.Goals ??= new List<Goal>();
+        existingCase.Goals.Clear();
+        if (goalsId.Any())
+        {
+            var trackedGoals = await _context.Goals.Where(g => goalsId.Contains(g.GoalId)).ToListAsync();
+            foreach (var g in trackedGoals) existingCase.Goals.Add(g);
+        }
+
         await _context.SaveChangesAsync();
     }
-}
+    }
