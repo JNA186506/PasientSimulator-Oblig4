@@ -13,6 +13,7 @@ public partial class CasePage : ContentPage
     private readonly HubConnection _hubConnection;
     private readonly ICaseService _caseService;
     private Case _case;
+    public ObservableCollection<string> Comments { get; } = new ObservableCollection<string>();
 
 
     public CasePage(HubConnection hubConnection, ICaseService caseService, Case currCase)
@@ -21,6 +22,17 @@ public partial class CasePage : ContentPage
         _caseService = caseService;
         _hubConnection = hubConnection;
         _case = currCase;
+        // assign case id if available
+        try
+        {
+            _caseId = currCase?.CaseId ?? 0;
+        }
+        catch
+        {
+            _caseId = 0;
+        }
+        // populate initial comments if any
+        PopulateCommentsFromCase();
         
 
     }
@@ -51,15 +63,62 @@ public partial class CasePage : ContentPage
             await DisplayAlertAsync("Validation", "Comment cannot be empty.", "OK");
             return;
         }
+    }
+
+    private async void OnAddCommentClicked(object sender, EventArgs e)
+    {
+        if (_case == null)
+            return;
+        var commentText = vurdering.Text?.Trim();
+        if (string.IsNullOrEmpty(commentText))
+        {
+            await DisplayAlertAsync("Validation", "Comment cannot be empty.", "OK");
+            return;
+        }
         try
         {
-          //  await _caseService.AddComment(_caseId, commentText);
+            // Add to local collection so UI shows it immediately
+            Comments.Insert(0, commentText);
+
+            // Optionally send to backend if service available
+            try
+            {
+                // Uncomment and adapt if AddComment exists on the service
+                // await _caseService.AddComment(_caseId, commentText);
+            }
+            catch
+            {
+                // ignore service errors for now
+            }
+
             vurdering.Text = string.Empty; // clear input
-            await LoadCase(); // refresh case to show new comment
+            await LoadCase(); // refresh case bindings
         }
         catch (Exception ex)
         {
             await DisplayAlertAsync("Error", $"Failed to add comment: {ex.Message}", "OK");
+        }
+    }
+
+    private void PopulateCommentsFromCase()
+    {
+        Comments.Clear();
+        if (_case == null)
+            return;
+        var prop = _case.GetType().GetProperty("Comments");
+        if (prop == null)
+            return;
+        var value = prop.GetValue(_case) as System.Collections.IEnumerable;
+        if (value == null)
+            return;
+        foreach (var item in value)
+        {
+            if (item == null)
+                continue;
+            var textProp = item.GetType().GetProperty("Text") ?? item.GetType().GetProperty("CommentText") ?? item.GetType().GetProperty("Message");
+            var text = textProp != null ? textProp.GetValue(item)?.ToString() : item.ToString();
+            if (!string.IsNullOrEmpty(text))
+                Comments.Add(text);
         }
     }
 

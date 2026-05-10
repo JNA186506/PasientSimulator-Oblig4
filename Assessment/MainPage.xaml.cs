@@ -26,8 +26,10 @@ public partial class MainPage : ContentPage
         {
             await MainThread.InvokeOnMainThreadAsync(LoadData);
         });
-
-        await _hubConnection.StartAsync();
+        if (_hubConnection.State == HubConnectionState.Disconnected)
+        {
+            await _hubConnection.StartAsync();
+        }
     }
 
     public async void NavigateButton_Click(object sender, EventArgs e)
